@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { removeUserRole } from "../../utils/authHelper";
 import {
   changePasswordApi,
   forgetPasswordApi,
@@ -46,6 +47,7 @@ export const logoutUser = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await logoutUserApi();
+      removeUserRole();
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(

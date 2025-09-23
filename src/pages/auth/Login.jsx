@@ -13,6 +13,7 @@ import LoginForm from "../../Components/form/auth/LoginForm";
 import GlassLayout from "../../Layout/Glass";
 import { login } from "../../features/auth/authAction";
 import { selectAuthError, selectIsAuthenticated, selectLoginLoading } from "../../features/auth/authSelector";
+import { saveUserRole } from "../../utils/authHelper.js";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const Login = () => {
 
     try {
       await dispatch(login(data)).unwrap();
+      saveUserRole(data.role);
       navigate("/")
     } catch (error) {
       console.log(error)

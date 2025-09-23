@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Loader from "./Components/common/Loader.jsx";
 import { fetchProfile } from "./features/auth/authAction.js";
-import { selectAuthUser, selectIsAuthenticated } from "./features/auth/authSelector.js";
+import { selectIsAuthenticated } from "./features/auth/authSelector.js";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+import { getUserRole } from "./utils/authHelper.js";
 
 
 const AddCoupon = lazy(() => import("./pages/coupons/AddCoupon.jsx"));
@@ -50,12 +51,11 @@ const App = () => {
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const user = useSelector(selectAuthUser);
-  const userRole = user?.role || "SUPER_ADMIN";
 
+  const role = getUserRole() || 'SUPER_ADMIN';
   useEffect(() => {
-    dispatch(fetchProfile(userRole));
-  }, [dispatch, isAuthenticated, userRole]);
+    dispatch(fetchProfile(role));
+  }, [dispatch, isAuthenticated, role]);
 
 
   return (
