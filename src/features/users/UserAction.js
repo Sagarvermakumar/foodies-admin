@@ -170,7 +170,6 @@ export const getDeliveryPersons = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const res = await getDeliveryPersonsApi();
-      console.log(res);
       return res.data;
     } catch (error) {
     console.error("Error fetching delivery persons:", error);

@@ -30,7 +30,6 @@ const UserDetailsCard = ({ user }) => {
 
   // open user location in maps
   const openInGoogleMaps = (location) => {
-    console.log(location)
     if (location && location.length > 0) {
       const [lat, long] = location
       const url = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
@@ -46,7 +45,6 @@ const UserDetailsCard = ({ user }) => {
 
   // block and active user status
   const handdleBlockUser = () => {
-    console.log("s")
     if (userDetails.status === 'active') {
       dispatch(blockUser(userDetails._id));
     } else {

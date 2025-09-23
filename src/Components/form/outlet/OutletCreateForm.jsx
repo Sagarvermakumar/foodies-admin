@@ -42,8 +42,6 @@ const OutletCreateForm = ({ onSubmitCreate, onSubmitUpdate }) => {
 
   const { coordinates, error: geoLocationError } = useGeolocation();
 
-  console.log("Outlet cord : ", coordinates)
-  console.log("Outlet cord geoLocationError : ", geoLocationError)
 
   useEffect(() => {
     if (id) {

@@ -96,14 +96,11 @@ const CreateCategoryForm = () => {
           formData.append('active', values.active)
 
           // Handle form submission
-          console.log('Form submitted:', values)
           if (categoryId) {
             // Update category
             dispatch(updateCategory({ id: categoryId, data: formData }))
           } else {
             // Create category
-            console.log('Creating Values:', values)
-            console.log('Creating formdata:', formData)
             dispatch(createItemCategory(formData))
           }
 

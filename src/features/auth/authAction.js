@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-    changePasswordApi,
-    forgetPasswordApi,
-    getProfileApi,
-    loginApi,
-    loginWithOtpApi,
-    logoutUserApi,
-    otpVerificationApi,
-    resetPasswordApi,
+  changePasswordApi,
+  forgetPasswordApi,
+  getProfileApi,
+  loginApi,
+  loginWithOtpApi,
+  logoutUserApi,
+  otpVerificationApi,
+  resetPasswordApi,
 } from "./authApi";
 
 // login as admin
@@ -24,9 +24,9 @@ export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
 // Fetch user profile
 export const fetchProfile = createAsyncThunk(
   "auth/profile",
-  async (_, thunkAPI) => {
+  async (role, thunkAPI) => {
     try {
-      const response = await getProfileApi();
+      const response = await getProfileApi(role);
       return response.data.user;
     } catch (error) {
       if (!navigator.onLine) {
@@ -87,7 +87,6 @@ export const otpVerification = createAsyncThunk(
   "auth/verify-otp",
   async (data, thunkAPI) => {
     try {
-      console.log("verify Data : ", data)
       const res = await otpVerificationApi(data);
       return res.data;
     } catch (error) {
@@ -103,7 +102,6 @@ export const forgetPassword = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const res = await forgetPasswordApi(data);
-      console.log("Forgot res : ", res.data)
       return res.data
     } catch (error) {
       return thunkAPI.rejectWithValue(

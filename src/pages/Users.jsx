@@ -15,9 +15,8 @@ import UserCardSkeleton from "../Components/Skeletons/UserCardSkeleton";
 import { getAllUsers, getDeliveryPersons } from "../features/users/UserAction";
 import {
   makeLoadingSelector,
-  selectDeliveryPersonList,
   selectUserList,
-  selectUserPagination,
+  selectUserPagination
 } from "../features/users/userSelector";
 
 const Users = () => {
@@ -25,7 +24,6 @@ const Users = () => {
   const userList = useSelector(selectUserList);
   const pagination = useSelector(selectUserPagination);
   const isLoadingUsers = useSelector(makeLoadingSelector("users"));
-  console.log(userList);
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [query, setQuery] = useState("");
@@ -70,8 +68,6 @@ const Users = () => {
 
 
 
-  const deliveryPersons = useSelector(selectDeliveryPersonList);
-  console.log(deliveryPersons);
 
   return (
     <Box p={0}>

@@ -23,13 +23,11 @@ const LoginWithOTP = () => {
   const dispatch = useDispatch()
 
   const handleSendOTP = async ({ emailOrPhone }) => {
-    console.log("Value : ", emailOrPhone)
     dispatch(loginWithOtp({ emailOrPhone }))
 
   };
 
   const handleVerifyOTP = async (values) => {
-    console.log(values)
     dispatch(otpVerification({ email: values.emailOrPhone, otp: values.otp }))
 
 

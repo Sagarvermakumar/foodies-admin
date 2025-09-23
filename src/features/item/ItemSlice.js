@@ -66,10 +66,8 @@ const ItemsSlice = createSlice({
         state.loading.addItem = true;
         state.error = null;
       })
-      .addCase(createItem.fulfilled, (state, action) => {
+      .addCase(createItem.fulfilled, (state) => {
         state.loading.addItem = false;
-        console.log(action.payload)
-        // state.itemList = state.itemList.push(action.payload.data)
       })
       .addCase(createItem.rejected, (state, action) => {
         state.loading.addItem = false;
@@ -113,7 +111,6 @@ const ItemsSlice = createSlice({
       .addCase(toggleItemAvailability.fulfilled, (state, action) => {
         state.loading.toggle = false;
         const updatedItem = action.payload.data;
-        console.log(updatedItem)
         state.itemList = state.itemList.map((item) =>
           item._id === updatedItem._id ? updatedItem : item
         );

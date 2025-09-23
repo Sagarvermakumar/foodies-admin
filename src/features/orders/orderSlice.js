@@ -76,7 +76,6 @@ const orderSlice = createSlice({
       })
       .addCase(deleteCancelledOrder.fulfilled, (state, action) => {
         state.loading.deleteOrder = false
-        console.log(action.payload.orderId)
         state.orderList = state.orderList.filter(
           (order) => order._id !== action.payload.orderId
         ) 

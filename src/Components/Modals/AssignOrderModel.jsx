@@ -24,11 +24,10 @@ const AssignOrderModel = ({
   const handleSubmit = () => {
     if (deliveryPersonId) {
       handleConfirmAssign(deliveryPersonId);
-      console.log(deliveryPersonId)
       onClose();
-    }else{
-        toast.error("Select First Delivery Person")
-        return
+    } else {
+      toast.error("Select First Delivery Person")
+      return
     }
   };
 
@@ -49,7 +48,7 @@ const AssignOrderModel = ({
         <ModalCloseButton />
         <ModalBody px={6} py={8}>
           <Select
-          placeholder="Select delivery person"
+            placeholder="Select delivery person"
             value={deliveryPersonId}
             onChange={(e) => setDeliveryPersonId(e.target.value)}
             bg="gray.800"
@@ -68,7 +67,7 @@ const AssignOrderModel = ({
               boxShadow: "0 0 0 1px red.500",
             }}
           >
-            { deliveryPersons && deliveryPersons.map((person) => (
+            {deliveryPersons && deliveryPersons.map((person) => (
               <option
                 key={person._id}
                 value={person._id}
@@ -82,7 +81,7 @@ const AssignOrderModel = ({
 
         <ModalFooter>
           <Button variant={'solid'} mr={3} onClick={handleSubmit}>
-             Assign
+            Assign
           </Button>
           <Button variant="outline" onClick={onClose}>
             Cancel

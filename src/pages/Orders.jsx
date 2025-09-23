@@ -43,7 +43,6 @@ const Orders = () => {
     dispatch(getAllOrders(filter));
   }, [dispatch, filter]);
 
-  console.log(orderList);
 
   if (!orderList) return <EmptyState
     label="Orders"

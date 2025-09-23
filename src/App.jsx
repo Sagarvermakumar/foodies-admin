@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Loader from "./Components/common/Loader.jsx";
 import { fetchProfile } from "./features/auth/authAction.js";
-import { selectIsAuthenticated } from "./features/auth/authSelector.js";
+import { selectAuthUser, selectIsAuthenticated } from "./features/auth/authSelector.js";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 
@@ -50,10 +50,12 @@ const App = () => {
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectAuthUser);
+  const userRole = user?.role || "SUPER_ADMIN";
 
   useEffect(() => {
-    dispatch(fetchProfile());
-  }, [dispatch, isAuthenticated]);
+    dispatch(fetchProfile(userRole));
+  }, [dispatch, isAuthenticated, userRole]);
 
 
   return (

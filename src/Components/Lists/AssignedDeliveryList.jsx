@@ -89,7 +89,6 @@ const AssignedDeliveryList = ({ orders }) => {
   }
 
   const handleOpenLocationInMap = (location) => {
-    console.log(location)
     if (location && location.length > 0) {
       const [lat, long] = location
       const url = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`

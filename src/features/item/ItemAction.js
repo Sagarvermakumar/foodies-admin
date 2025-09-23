@@ -44,7 +44,6 @@ export const getAllItems = createAsyncThunk(
   "/item/all",
   async (query, thunkAPI) => {
     try {
-      console.log({query})
       const res = await getAllItemsApi(query);
       return res.data;
     } catch (error) {
@@ -87,7 +86,6 @@ export const toggleItemAvailability = createAsyncThunk(
   "/item/toggle",
   async (itemId, thunkAPI) => {
     try {
-      console.log("Toggling item availability:", itemId);
       const res = await toggleItemAvailabilityApi(itemId);
       return res.data;
     } catch (error) {

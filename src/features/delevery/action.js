@@ -53,7 +53,6 @@ export const markOrderDelivered = createAsyncThunk(
 export const updateLocation = createAsyncThunk(
   "/delivery/location",
   async ({ orderId, coordinates }, thunkAPI) => {
-    console.log("Updating location for order:", orderId, "with coordinates:", coordinates);
     try {
       const res = await updateLocationApi({ orderId, coordinates });
       return res.data;

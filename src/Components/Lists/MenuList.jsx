@@ -32,7 +32,6 @@ import ToggleMenuItemAvailabilityModal from "../Modals/ToggleMenuItemAvailabilit
 import DeleteConfirmationModal from "../common/DeleteConfirmation";
 import Pagination from "../common/Pagination";
 const MenuList = ({ items, pagination }) => {
-  // console.log(items)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

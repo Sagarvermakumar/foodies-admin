@@ -5,8 +5,6 @@ const Pagination = ({ pagination, setPageAction, fetchAction }) => {
   const dispatch = useDispatch()
 
   const { page, pages, hasNextPage, hasPrevPage } = pagination;
-  console.log("Pagination:", pagination)
-  console.log({ page, pages, hasNextPage, hasPrevPage })
   const handlePageChange = (type) => {
     let newPage = page;
     if (type === "pre") {

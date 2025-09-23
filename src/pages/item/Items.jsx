@@ -16,7 +16,6 @@ const Items = () => {
   const pagination = useSelector(SelectPagination)
   const itemsLoading = useSelector(MakeSelectItemLoading('getAll'))
 
-  console.log(itemList)
   const handleChange = (e) => {
     setQuery(e.target.value);
   };

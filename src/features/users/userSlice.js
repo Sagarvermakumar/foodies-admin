@@ -196,7 +196,6 @@ const userSlice = createSlice({
       .addCase(getDeliveryPersons.fulfilled, (state, action) => {
         state.loading.deliveryPerson = false
         state.deliveryPersonList = action.payload.data
-        console.log(action.payload)
       })
       .addCase(getDeliveryPersons.rejected, (state, action) => {
         state.loading.deliveryPerson = false

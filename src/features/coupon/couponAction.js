@@ -13,8 +13,6 @@ export const getAllCoupons = createAsyncThunk(
   async ({ query, page, limit }, thunkAPI) => {
     try {
       const res = await getAllCouponsApi(query, page, limit );
-      let d = res.data
-      console.log(d)
       return res.data
     } catch (error) {
       console.error(`Failed to fetch coupons ${error.message}`)
@@ -44,7 +42,6 @@ export const updateCoupon = createAsyncThunk(
   '/coupon/update',
   async (data, thunkAPI) => {
     const { couponId, ...couponData } = data
-    console.log('Updating Coupon ID:', couponId, 'with data:', couponData)
 
     try {
       const res = await updateCouponApi(couponId, couponData)

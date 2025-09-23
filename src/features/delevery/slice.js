@@ -34,12 +34,10 @@ export const deliverySlice = createSlice({
         state.loading.getAssignedOrders = false;
         state.assignedOrdersList = action.payload.data;
         state.pagination = action.payload.pagination;
-         console.log(action.payload)
       })
       .addCase(getAssignedOrders.rejected, (state, action) => {
         state.loading.getAssignedOrders = false;
         state.error = action.payload;
-        console.log(action.payload)
       })
       // Mark order as picked
       .addCase(markOrderPicked.pending, (state) => {

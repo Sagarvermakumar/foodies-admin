@@ -45,7 +45,6 @@ export const couponSlice = createSlice({
       .addCase(getAllCoupons.fulfilled, (state, action) => {
         state.loading.get = false;
         state.couponList = action.payload.data;
-        console.log("coupons : ",action.payload)
       })
       .addCase(getAllCoupons.rejected, (state, action) => {
         state.loading.get = false;

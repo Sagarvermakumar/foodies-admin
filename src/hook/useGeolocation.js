@@ -13,11 +13,9 @@ export const useGeolocation = () => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const coords = [pos.coords.longitude, pos.coords.latitude];
-        console.log("coordinates : ", coords)
         setCoordinates(coords);
       },
       (err) => {
-        console.log("error : ", err)
         if (err.code === 1) {
           // User denied permission
           setError("We couldn’t access your location. To set your outlet address accurately, please allow location access in your browser or device settings, or type location coordinates manually.");

@@ -1,36 +1,36 @@
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
 import {
-  VStack,
+  Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
-  Button,
   InputGroup,
   InputRightAddon,
-  FormErrorMessage,
-} from "@chakra-ui/react";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import { LoginSchema } from "../../../validation/auth";
+  Select,
+  VStack,
+} from '@chakra-ui/react'
+import { Field, Form, Formik } from 'formik'
+import { Eye, EyeOff } from 'lucide-react'
+import { useState } from 'react'
+import { LoginSchema } from '../../../validation/auth'
 
-
- function LoginForm({ loading, onSubmit }) {
-  const [showPassword, setShowPassword] = useState(false);
+function LoginForm({ loading, onSubmit }) {
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <Formik
-      initialValues={{ emailOrPhone: "", password: "" }}
+      initialValues={{ emailOrPhone: '', password: '', role: 'SUPER_ADMIN' }}
       validationSchema={LoginSchema}
       onSubmit={async (values, actions) => {
-    try {
-      await onSubmit(values); // wait for handleLogin
-    } catch (err) {
-      console.error(err);
-    } finally {
-      actions.setSubmitting(false); // stop loading after login
-    }
-  }}
+        try {
+          await onSubmit(values) // wait for handleLogin
+          console.log(values)
+        } catch (err) {
+          console.error(err)
+        } finally {
+          actions.setSubmitting(false) // stop loading after login
+        }
+      }}
     >
       {({ errors, touched, isSubmitting }) => (
         <Form>
@@ -38,7 +38,10 @@ import { LoginSchema } from "../../../validation/auth";
             {/* Email */}
             <Field name="emailOrPhone">
               {({ field }) => (
-                <FormControl isRequired isInvalid={errors.emailOrPhone && touched.emailOrPhone}>
+                <FormControl
+                  isRequired
+                  isInvalid={errors.emailOrPhone && touched.emailOrPhone}
+                >
                   <FormLabel>Email</FormLabel>
                   <Input
                     {...field}
@@ -51,23 +54,50 @@ import { LoginSchema } from "../../../validation/auth";
               )}
             </Field>
 
+            {/* role  */}
+            <Field name="role">
+              {({ field }) => (
+                <FormControl isRequired isInvalid={errors.role && touched.role}>
+                  <FormLabel>Role</FormLabel>
+                  <Select {...field} value={field.role}>
+                    {['SUPER_ADMIN', 'MANAGER', 'STAFF', 'DELIVERY'].map(
+                      (target) => (
+                        <option
+                          style={{
+                            backgroundColor: '#060707ff',
+                            color: 'white',
+                          }}
+                          value={target}
+                        >
+                          {target}
+                        </option>
+                      )
+                    )}
+                  </Select>
+                  <FormErrorMessage>{errors.password}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+
             {/* Password */}
             <Field name="password">
               {({ field }) => (
-                <FormControl isRequired  isInvalid={errors.password && touched.password}>
+                <FormControl
+                  isRequired
+                  isInvalid={errors.password && touched.password}
+                >
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input
                       {...field}
                       placeholder="Password"
-                      type={showPassword ? "text" : "password"}
-                      
+                      type={showPassword ? 'text' : 'password'}
                     />
                     <InputRightAddon
                       onClick={() => setShowPassword((prev) => !prev)}
                       bg="gray.900"
-                      _hover={{ bg: "gray.800" }}
-                      _active={{ bg: "gray.800" }}
+                      _hover={{ bg: 'gray.800' }}
+                      _active={{ bg: 'gray.800' }}
                       cursor="pointer"
                     >
                       {showPassword ? <Eye /> : <EyeOff />}
@@ -87,8 +117,8 @@ import { LoginSchema } from "../../../validation/auth";
               mt={4}
               bg="brand.800"
               _hover={{
-                bg: "brand.700",
-                boxShadow: "0 0 0 1px brand.500",
+                bg: 'brand.700',
+                boxShadow: '0 0 0 1px brand.500',
               }}
             >
               Login
@@ -97,8 +127,7 @@ import { LoginSchema } from "../../../validation/auth";
         </Form>
       )}
     </Formik>
-  );
+  )
 }
 
-
-export default LoginForm;
+export default LoginForm

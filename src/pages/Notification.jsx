@@ -22,7 +22,6 @@ const NotificationSchema = Yup.object().shape({
 
 const Notification = () => {
   const handleSubmit = (values, actions) => {
-    console.log("Notification Data:", values);
     actions.resetForm();
   };
 

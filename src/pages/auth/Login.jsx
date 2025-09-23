@@ -12,7 +12,7 @@ import Header from "../../Components/common/Heading";
 import LoginForm from "../../Components/form/auth/LoginForm";
 import GlassLayout from "../../Layout/Glass";
 import { login } from "../../features/auth/authAction";
-import { selectAuthError, selectAuthUser, selectIsAuthenticated, selectLoginLoading } from "../../features/auth/authSelector";
+import { selectAuthError, selectIsAuthenticated, selectLoginLoading } from "../../features/auth/authSelector";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,8 +20,6 @@ const Login = () => {
   const isLoading = useSelector(selectLoginLoading);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const error = useSelector(selectAuthError);
-  const user = useSelector(selectAuthUser)
-  console.log(user?.role)
   const handleLogin = async (data) => {
 
     try {
@@ -30,8 +28,6 @@ const Login = () => {
     } catch (error) {
       console.log(error)
     }
-
-
   };
 
   useEffect(() => {
@@ -57,7 +53,6 @@ const Login = () => {
           boxShadow="dark-lg"
           p={{ base: 6, md: 8 }}
           spacing={4}
-        // bg="blackAlpha.500"
         >
           <Header
             title="Login As Admin"

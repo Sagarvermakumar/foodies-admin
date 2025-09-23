@@ -82,7 +82,6 @@ const CreateCouponForm = () => {
         enableReinitialize={true}
         onSubmit={async (values, actions) => {
           if (couponId) {
-            console.log("Updating Coupon ID:", couponId, "with data:", values);
             await dispatch(updateCoupon({ couponId, ...values })).unwrap()
             navigate('/coupon')
           } else {

@@ -4,7 +4,7 @@ import API from "../../utils/axiosClient";
 export const loginApi = (data) => API.post("/auth/login", data);
 
 // get profile
-export const getProfileApi = () => API.get("/auth/me");
+export const getProfileApi = (role) => API.get(`/auth/me?role=${role}`);
 
 // login with otp from email
 export const loginWithOtpApi = (data) => API.post("/auth/otp-login", data);

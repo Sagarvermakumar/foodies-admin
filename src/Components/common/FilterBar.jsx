@@ -31,7 +31,6 @@ const FilterBar = ({ onFilter, today }) => {
       }}
       validationSchema={FilterSchema}
       onSubmit={(values) => {
-        console.log("Filter applied:", values);
         if (onFilter) onFilter(values);
       }}
     >

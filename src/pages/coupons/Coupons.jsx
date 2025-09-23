@@ -8,16 +8,13 @@ import Header from "../../Components/common/Heading";
 import { getAllCoupons } from "../../features/coupon/couponAction";
 import {
   MakeCouponLoadingSelector,
-  selectCouponList,
-  selectCouponsError
+  selectCouponList
 } from "../../features/coupon/couponSelector";
 
 const Coupons = () => {
   const dispatch = useDispatch();
   const couponList = useSelector(selectCouponList);
-  const error = useSelector(selectCouponsError);
 
-  console.log("Couon error : ", error)
   const isLoadingCoupon = useSelector(MakeCouponLoadingSelector("get"));
   console.log({ couponList })
   useEffect(() => {

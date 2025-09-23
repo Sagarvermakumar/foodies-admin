@@ -17,7 +17,6 @@ const ForgotPassword = () => {
     const dispatch = useDispatch()
 
     const handleForgetPassword = async (values) => {
-        console.log("Forget password values",values );
         dispatch(forgetPassword(values))
 
     }
@@ -39,7 +38,7 @@ const ForgotPassword = () => {
                     boxShadow="dark-lg"
                     p={{ base: 6, md: 8 }}
                     spacing={4}
-                    // bg="blackAlpha.500"
+                // bg="blackAlpha.500"
                 >
                     <VStack spacing={6} align="stretch">
                         <Heading size="lg" textAlign="center">
@@ -50,7 +49,7 @@ const ForgotPassword = () => {
                             Link.
                         </Text>
 
-                      <ForgetPasswordForm loading={loading}onSubmit={(values) =>handleForgetPassword(values)}/>
+                        <ForgetPasswordForm loading={loading} onSubmit={(values) => handleForgetPassword(values)} />
 
                     </VStack>
                 </Stack>

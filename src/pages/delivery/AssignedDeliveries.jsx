@@ -1,3 +1,4 @@
+
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,14 +18,11 @@ const AssignedDeliveries = () => {
 
   const assignedDeliveriesList = useSelector(selectAssignedDeliveryList);
   const error = useSelector(selectDeliveryError)
-  console.log(assignedDeliveriesList)
   const isLoadingAssignedDeliveriesList = useSelector(
     makeDeliveryLoadingSelector("getAssignedOrders")
   );
 
 
-  console.log(error)
-  console.log(assignedDeliveriesList, "assignedDeliveriesList");
 
   useEffect(() => {
     dispatch(getAssignedOrders());

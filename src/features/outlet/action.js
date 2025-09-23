@@ -8,7 +8,6 @@ export const getAllOutlets = createAsyncThunk(
   async (filters, thunkAPI) => {
     try {
       const res = await getAllOutletsApi(filters);
-      console.log(res.data);
       
       return res.data;
     } catch (error) {
@@ -38,7 +37,6 @@ export const createOutlet = createAsyncThunk(
 export const updateOutlet = createAsyncThunk(
   "/outlet/update",
   async ({id,value}, thunkAPI) => {
-    console.log(id,value)
     try {
       const res = await updateOutletApi(id,value);
       return res.data;
