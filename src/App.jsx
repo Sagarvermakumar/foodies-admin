@@ -1,11 +1,11 @@
 import { Suspense, lazy, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Loader from "./Components/common/Loader.jsx";
-import { fetchProfile } from "./features/auth/authAction.js";
-import { selectIsAuthenticated } from "./features/auth/authSelector.js";
+import { logoutUser } from "./features/auth/authAction.js";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import { getUserRole } from "./utils/authHelper.js";
+import axiosClient from "./utils/axiosClient.js";
 
 
 const AddCoupon = lazy(() => import("./pages/coupons/AddCoupon.jsx"));
@@ -50,12 +50,34 @@ const App = () => {
   // const location = useLocation();
   const dispatch = useDispatch();
 
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  // const isAuthenticated = useSelector(selectIsAuthenticated);
+  const role = getUserRole();
+  console.log("User Role:", role);
 
-  const role = getUserRole() || 'SUPER_ADMIN';
+
   useEffect(() => {
-    dispatch(fetchProfile(role));
-  }, [dispatch, isAuthenticated, role]);
+    const checkAuth = async () => {
+      try {
+        const { data } = await axiosClient.get(`/auth/me?role=SUPER_ADMIN`, {
+          withCredentials: true,
+        });
+        const userRole = data?.user.role;
+        console.log(userRole);
+
+        if (userRole === "CUSTOMER") {
+          dispatch(logoutUser())
+        }
+
+        console.log(data)
+
+      } catch (error) {
+        console.log(error)
+      } finally {
+        console.log("Request final")
+      }
+    }
+    checkAuth()
+  }, [dispatch,])
 
 
   return (
@@ -304,5 +326,5 @@ const App = () => {
   );
 };
 
-export const server = `http://localhost:4000`;
+
 export default App;

@@ -45,6 +45,9 @@ function LoginForm({ loading, onSubmit }) {
                   <FormLabel>Email</FormLabel>
                   <Input
                     {...field}
+                    name='emailOrPhone'
+                    id='emailOrPhone'
+
                     autoComplete="email"
                     placeholder="Email"
                     type="email"

@@ -3,17 +3,21 @@ import * as Yup from "yup";
 
 export const LoginSchema = Yup.object().shape({
   emailOrPhone: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
+    .test("emailOrPhone", "Valid email or phone is required", function (value) {
+      if (!value) return false;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneRegex = /^[0-9]{10}$/; // adjust length for your use case
+      return emailRegex.test(value) || phoneRegex.test(value);
+    })
+    .required("Email or phone is required"),
+  role: Yup.string()
+    .oneOf(['SUPER_ADMIN', 'MANAGER', 'STAFF', 'DELIVERY'], "Invalid role")
+    .required("Role is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
 });
-export const ForgetPasswordSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-});
+
 
 
 
