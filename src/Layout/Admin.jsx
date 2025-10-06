@@ -18,7 +18,6 @@ const Admin = () => {
           h="100%"
           zIndex={-1}
           ml={{ base: 0, md: 72 }}
-        // bg={colorMode === "dark" ? "#000000b3" : "#00000050"}
         >
           <GlassLayout />
         </Box>

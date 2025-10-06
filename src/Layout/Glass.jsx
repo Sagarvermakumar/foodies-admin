@@ -1,85 +1,115 @@
+
+
 "use client";
 
-import { Box, Container } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
+import { motion } from "framer-motion";
 
-const GlassLayout = ({ children }) => {
+const MotionBox = motion(Box);
+const move = keyframes`
+  0% { background-position: 0 0; }
+  100% { background-position: 200px 0; }
+`;
+
+const Banner = () => {
+  const gridLineColor = useColorModeValue(
+    "rgba(0,0,0,0.04)",
+    "rgba(255,255,255,0.05)"
+  );
+  const bgColor = useColorModeValue("#fff", "#000");
   return (
     <Box
-      position="sticky"
+      as="section"
+      position="relative"
       w="100%"
-      minH="100vh"
+      h="100vh"
+      bg={bgColor}
+      color="white"
       overflow="hidden"
-      bg={"#0000000a"}
     >
-      {/* 🔮 Neon Glow Shapes */}
-      {/* 🔮 Neon Glow Shapes */}
-      <Box
+      {/* 🔮 Neon Glow Background Shapes */}
+      <MotionBox
         position="absolute"
-        top="80px"
-        left="5%"
-        w="300px"
-        h="400px"
-        bg="#ff0081"
-        borderRadius="50%"
-        filter="blur(140px)"
-        opacity={0.1}
-        zIndex={0}
-      />
-
-      <Box
-        position="absolute"
-        bottom="-10%"
-        right="0px"
-        w="450px"
-        h="250px"
-        bg="rgba(255, 0, 0, 0.75)"
-        borderRadius="full"
-        filter="blur(110px)"
-        opacity={0.2}
-        zIndex={0}
-      />
-
-      <Box
-        position="absolute"
-        top="0%"
-        right="0px"
-        w="480px"
+        top="8%"
+        left="2%"
+        w="200px"
         h="200px"
-        bg="#8a2be2"
-        borderRadius="50%"
-        filter="blur(160px)"
+        bg="blue.500"
+        borderRadius="full"
+        filter="blur(60px)"
         opacity={0.4}
+        animate={{ x: [0, 30, -30, 0], y: [0, -50, 20, 0] }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          repeatType: "mirror",
+          ease: "easeInOut",
+        }}
         zIndex={0}
-        display={{ sm: "none", md: "block" }}
       />
 
-      <Box
+      <MotionBox
         position="absolute"
-        bottom="60px"
-        left="5%"
-        w="350px"
-        h="180px"
-        bg="rgba(255, 17, 0, 0.41)"
-        borderRadius="50%"
-        filter="blur(150px)"
-        opacity={0.1}
+        bottom="10%"
+        right="5%"
+        w="150px"
+        h="150px"
+        bg="pink.600"
+        borderRadius="full"
+        filter="blur(70px)"
+        opacity={0.45}
+        animate={{ x: [0, -40, 40, 0], y: [0, 40, -20, 0] }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          repeatType: "mirror",
+          ease: "easeInOut",
+        }}
         zIndex={0}
-        display={{ sm: "none", md: "block" }}
       />
 
-      {/* 🌫️ Glass Container */}
-      <Container
-        zIndex={1}
-        minW={{ base: "100vw", md: "calc(100vw - 288px)" }}
-        minH="100vh"
-        backdropFilter="blur(30px) saturate(200%)"
-        overflowY="auto"
-        bg={"#0000000a"}
-      >
-        {children}
-      </Container>
+      <MotionBox
+        position="absolute"
+        bottom="40%"
+        left="40%"
+        w="150px"
+        h="150px"
+        bg="purple.500"
+        borderRadius="full"
+        filter="blur(60px)"
+        opacity={0.3}
+        animate={{ x: [0, 20, -20, 0], y: [0, -30, 30, 0] }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          repeatType: "mirror",
+          ease: "easeInOut",
+        }}
+        zIndex={0}
+      />
+
+      {/* 🔲 Grid Overlay */}
+      <Box
+        position="relative"
+        w="100%"
+        h="100vh"
+        overflow="hidden"
+        bg="transparent"
+        _before={{
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          w: "200%",
+          h: "200%",
+          bgImage: `linear-gradient(to right, ${gridLineColor} 1px, transparent 1px), linear-gradient(to bottom, ${gridLineColor} 1px, transparent 1px)`,
+          bgSize: "50px 50px",
+          animation: `${move} 10s linear infinite`,
+        }}
+      ></Box>
     </Box>
   );
 };
 
-export default GlassLayout;
+export default Banner;
