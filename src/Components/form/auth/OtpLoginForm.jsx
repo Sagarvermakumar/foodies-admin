@@ -102,7 +102,7 @@ const OtpLoginForm = ({ onSubmitSendOTP, onSubmitVerifyOTP, otpSent }) => {
                 type="submit"
                 isLoading={verifyOtpLoading}
               >
-                Verify OTP & Login
+                Login
               </Button>
             </>
           )}

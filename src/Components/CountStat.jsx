@@ -1,12 +1,12 @@
-import { HStack, Stat, StatHelpText, StatLabel, StatNumber, Text } from '@chakra-ui/react'
-import React from 'react'
+import { HStack, Stat, StatHelpText, StatLabel, StatNumber, Text } from '@chakra-ui/react';
 import PropTypes from "prop-types";
 const CountStat = ({ count, label, growth }) => {
     return (
-        <Stat p={4}  
+        <Stat p={4}
             borderRadius="lg"
             boxShadow={'dark-lg'}
             border="1px solid rgba(239, 232, 235, 0.04)"
+            bg={'whiteAlpha.200'}
         >
             <HStack justify={'space-between'} >
                 <StatLabel  >{label}</StatLabel>
@@ -21,7 +21,7 @@ const CountStat = ({ count, label, growth }) => {
 
 CountStat.propTypes = {
     count: PropTypes.number.isRequired,
-    label:PropTypes.string.isRequired,
-    growth:PropTypes.string.isRequired
+    label: PropTypes.string.isRequired,
+    growth: PropTypes.string.isRequired
 };
 export default CountStat

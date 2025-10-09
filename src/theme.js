@@ -41,117 +41,103 @@ const theme = extendTheme({
     },
   },
   components: {
-    Button: {
-      baseStyle: {
-        fontWeight: "bold",
-        borderRadius: "md",
-        textShadow: "0 1px 2px rgba(0,0,0,0.8)",
+  Button: {
+  baseStyle: {
+    fontWeight: "bold",
+    borderRadius: "md",
+    textShadow: "0 1px 2px rgba(0,0,0,0.8)",
+  },
+  variants: {
+    solid: {
+      bg: "brand.900",
+      color: "gray.100",
+      transition: "all 0.2s ease-in-out",
+      border: "none",
+      outline: "none",
+      _focus: {
+        boxShadow: "none",
+        border: "none",
+        outline: "none",
       },
-      variants: {
-        solid: {
-          bg: "brand.900",
-          color: "gray.100",
-          transition: "all 0.2s ease-in-out",
-          border: "none",
-          outline: "none",
-          boxShadow: "0 2px 8px rgba(255, 136, 0, 0.4)",
-          _focus: {
-            boxShadow: "none",
-            border: "none",
-            outline: "none",
-          },
-          _hover: {
-            boxShadow: " 0 4px 60px rgba(252, 189, 1, 0.33)",
-            transform: "scale(1.02)",
-            transition: "0.2s ease-in-out",
-            bg: "brand.900",
-          },
-          _active: {
-            boxShadow: " 0 4px 60px rgba(252, 189, 1, 0.33)",
-            transform: "scale(1.02)",
-            transition: "0.2s ease-in-out",
-            bg: "brand.900",
-          },
-          _focusVisible: {
-            boxShadow: "none",
-            border: "none",
-            outline: "none",
-          },
-        },
-         outline: {
-           border: "1px solid",
-           borderColor: 'brand.900',
-           color: 'brand.800',
-           bg: "transparent",
-           _hover: {
-             bg: "transparent",
-             color: "brand.primary",
-             borderColor: 'brand.600',
-             boxShadow: `0px 0px 10px #f60`,
-           },
-           _active: {
-            //  bg: config.brandBtnHoverBg,
-             transform: "scale(0.98)",
-           },
-           _focus: {
-             boxShadow: "0 0 0 2px rgba(0,0,0,0.1)",
-           },
-         },
-        ghost: {
-          color: "gray.100",
-          bg: "transparent",
-          boxShadow: "0 2px 8px rgba(255, 136, 0, 0.4)",
-          transition: "all 0.2s ease-in-out",
-          _hover: {
-            color: "#f80",  
-            bg: "transparent",
-            boxShadow:
-              "5px 5px 200px #f80, -5px -5px 200px #f80, inset 5px 5px 20px #d8a1090f, inset -5px -5px 20px #aba58601", // hover pe warm shadow
-          },
-        },
-        link: {
-          color: "brand.700",
-          textDecoration: "underline",
-          textUnderlineOffset: "2px",
-          textDecorationThickness: "2px",
-          textDecorationColor: "brand.700",
-          textShadow: "0 1px 2px rgba(0,0,0,0.8)",
-          transition: "all 0.2s ease-in-out",
-          fontSize: "16px",
-          fontFamily: "Inter, sans-serif",
-          fontStyle: "normal",
-          fontWeight: "bold",
-          lineHeight: "24px",
-          letterSpacing: "0.1px",
-          outline: "none",
-          border: "none",
-          boxShadow: "none",
-
-          _focus: {
-            boxShadow: "none",
-            border: "none",
-            outline: "none",
-          },
-          _focusVisible: {
-            boxShadow: "none",
-            border: "none",
-            outline: "none",
-          },
-          _hover: {
-            textDecoration: "none",
-            color: "brand.700",
-          },
-          _active: {
-            transform: "scale(0.98)",
-            boxShadow:
-              "5px 5px 200px #f80, -5px -5px 200px #f80, inset 5px 5px 20px #d8a1090f, inset -5px -5px 20px #aba58601", // hover pe warm shadow
-
-            border: "none",
-            outline: "none",
-          },
-        },
+      _hover: {
+        boxShadow: "0 6px 20px rgba(252, 189, 1, 0.33)",
+        transform: "scale(1.02)",
+        transition: "0.2s ease-in-out",
+        bg: "brand.900",
+      },
+      _active: {
+        boxShadow: "0 0px 2px rgba(252, 189, 1, 0.26)",
+        transform: "scale(1.02)",
+        transition: "0.2s ease-in-out",
+        bg: "brand.900",
+      },
+      _focusVisible: {
+        boxShadow: "none",
+        border: "none",
+        outline: "none",
       },
     },
+    outline: {
+      border: "1px solid",
+      borderColor: "brand.900",
+      color: "brand.800",
+      bg: "transparent",
+      _hover: {
+        bg: "transparent",
+        color: "brand.primary",
+        borderColor: "brand.600",
+        boxShadow: "0 0 12px #f60",
+      },
+      _active: {
+        transform: "scale(0.98)",
+      },
+      _focus: {
+        boxShadow: "0 0 0 2px rgba(0,0,0,0.1)",
+      },
+    },
+    ghost: {
+      color: "gray.100",
+      bg: "transparent",
+      boxShadow: "0 2px 8px rgba(255, 136, 0, 0.4)",
+      transition: "all 0.2s ease-in-out",
+      _hover: {
+        color: "#f80",
+        bg: "transparent",
+        boxShadow:
+          "5px 5px 40px #f80, -5px -5px 40px #f80, inset 5px 5px 10px #d8a1090f, inset -5px -5px 10px #aba58601",
+      },
+    },
+    link: {
+      color: "brand.700",
+      textDecoration: "underline",
+      textUnderlineOffset: "2px",
+      textDecorationThickness: "2px",
+      textDecorationColor: "brand.700",
+      textShadow: "0 1px 2px rgba(0,0,0,0.8)",
+      transition: "all 0.2s ease-in-out",
+      fontSize: "16px",
+      fontFamily: "Inter, sans-serif",
+      fontStyle: "normal",
+      fontWeight: "bold",
+      lineHeight: "24px",
+      letterSpacing: "0.1px",
+      outline: "none",
+      border: "none",
+      boxShadow: "none",
+      _focus: { boxShadow: "none", border: "none", outline: "none" },
+      _focusVisible: { boxShadow: "none", border: "none", outline: "none" },
+      _hover: { textDecoration: "none", color: "brand.700" },
+      _active: {
+        transform: "scale(0.98)",
+        boxShadow:
+          "5px 5px 40px #f80, -5px -5px 40px #f80, inset 5px 5px 10px #d8a1090f, inset -5px -5px 10px #aba58601",
+        border: "none",
+        outline: "none",
+      },
+    },
+  },
+},
+
 //input 
    Input: {
   variants: {

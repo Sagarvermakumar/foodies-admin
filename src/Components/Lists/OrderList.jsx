@@ -28,6 +28,7 @@ import UserContact from "../UserContact";
 import DeleteConfirmationModal from "../common/DeleteConfirmation";
 
 const OrderList = ({ items }) => {
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const deliveryPersons = useSelector(selectDeliveryPersonList);
@@ -86,193 +87,208 @@ const OrderList = ({ items }) => {
     dispatch(assignOrderToDelivery({ orderId, deliveryPersonId }))
   }
   //Ye function order ko delete karta hai (sirf cancelled orders allowed)
-  const handleDeleteOrder = () => {
-    dispatch(deleteCancelledOrder(order._id));
+  const handleDeleteOrder = async () => {
+    dispatch(deleteCancelledOrder(order._id)).unwrap();
+
 
   };
   return (
     <Box>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-        {items.map((order) => (
-          <Box
-            key={order._id + order.name}
-            borderWidth="1px"
-            boxShadow="lg"
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-between"
-            h="600px"
-            border=".5px solid "
-            borderColor={"gray.600"}
-            borderRadius="xl"
-            shadow="md"
-            p={5}
-            bg="blackAlpha.300"
-          >
-            {/* User Info */}
-            <Stack spacing={0}>
-              <Text fontSize="lg" fontWeight="bold">
-                🆔{order.orderNo}
-              </Text>
-              <Text fontSize="lg" fontWeight="bold">
-                👤 {order.user?.name}
-              </Text>
-              <UserContact phoneNumber={order.user?.phone} />
-              <Text fontSize="sm" color="gray.400">
-                Ordered at: {new Date(order.createdAt).toLocaleString()}
-              </Text>
-            </Stack>
-            {/* Address */}
-            <Box mt={2}>
-              <Text fontWeight="bold" fontSize={"md"}>
-                📍Address{" "}
-              </Text>
-              <Text fontSize="sm">
-                {order.address?.label} - {order.address?.addressLine}
-              </Text>
+        {items.map((order) => {
+          const status = order.currentOrderStatus
+          const isAssigned =
+            status === "ASSIGNED" ||
+            status === "PICKED" ||
+            status === "OUT_FOR_DELIVERY" ||
+            status === "DELIVERED" ||
+            status === "CANCELLED" ||
+            status === "DELIVERED";
+          status === "COMPLETE";
+
+
+          const isDelivered = order?.currentOrderStatus === "DELIVERED"
+          return (
+            <Box
+              key={order._id + order.name}
+              // borderWidth="1px"
+              boxShadow="lg"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              h="600px"
+              borderRadius="xl"
+              shadow="md"
+              p={5}
+              bg="whiteAlpha.200"
+            >
+              {/* User Info */}
+              <Stack spacing={0}>
+                <Text fontSize="lg" fontWeight="bold">
+                  🆔{order.orderNo}
+                </Text>
+                <Text fontSize="lg" fontWeight="bold">
+                  👤 {order.user?.name}
+                </Text>
+                <UserContact phoneNumber={order.user?.phone} />
+                <Text fontSize="sm" color="gray.400">
+                  Ordered at: {new Date(order.createdAt).toLocaleString()}
+                </Text>
+              </Stack>
+              {/* Address */}
+              <Box mt={2}>
+                <Text fontWeight="bold" fontSize={"md"}>
+                  📍Address{" "}
+                </Text>
+                <Text fontSize="sm">
+                  {order.address?.label} - {order.address?.addressLine}
+                </Text>
+              </Box>
+              {/* Status & Payment */}
+              <Flex gap={4} wrap="wrap">
+                <Badge
+                  colorScheme={order.status === "confirmed" ? "green" : "orange"}
+                >
+                  {order.currentOrderStatus}
+                </Badge>
+                <Badge colorScheme="blue">
+                  {order.payment.gateway === "NONE"
+                    ? "COD"
+                    : order.payment.gateway}
+                </Badge>
+                <Badge colorScheme="purple">₹{order.charges?.grandTotal}</Badge>
+              </Flex>
+              {/* Items */}
+              <Box>
+                <Text fontWeight="bold" mb={2} fontSize={"md"}>
+                  🧾 Items:
+                </Text>
+                <SimpleGrid height={'75px'} width={'full'} overflowX={'hidden'} sx={{
+                  /* Scrollbar width */
+                  "&::-webkit-scrollbar": {
+                    width: "6px",   // thin scrollbar
+                  },
+                  /* Track */
+                  "&::-webkit-scrollbar-track": {
+                    background: "transparent", // ya "rgba(255,255,255,0.05)" for subtle bg
+                  },
+                  /* Thumb */
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "rgba(255,255,255,0.3)", // lightweight color
+                    borderRadius: "8px",
+                  },
+                  /* Thumb hover */
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    background: "rgba(255,255,255,0.5)",
+                  },
+                }} >
+                  {order.items.map((itemWrap) => (
+                    <Flex key={itemWrap._id} gap={3} mb={3} align="center">
+                      <Image
+                        src={itemWrap?.item?.image}
+                        alt={itemWrap?.item?.name}
+                        boxSize="60px"
+                        objectFit="cover"
+                        borderRadius="md"
+                      />
+                      <Box width={'full'} >
+                        <Text fontWeight="semibold" fontSize={"sm"}  >
+                          {itemWrap.item?.name}
+                        </Text>
+                        <Text fontSize="sm" color="gray.400">
+                          Qty: {itemWrap?.qty} | ₹{itemWrap.unitPrice}
+                        </Text>
+                      </Box>
+                    </Flex>
+                  ))}
+                </SimpleGrid>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <HStack justify={"space-between"}>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    Sub Total{" "}
+                  </Text>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    {" "}
+                    ₹{order?.charges?.subTotal || 0}
+                  </Text>
+                </HStack>
+                <HStack justify={"space-between"}>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    Discount{" "}
+                  </Text>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    {" "}
+                    ₹{order?.charges?.discount || 0}
+                  </Text>
+                </HStack>
+                <HStack justify={"space-between"}>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    Tax{" "}
+                  </Text>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    {" "}
+                    ₹{parseInt(order?.charges?.tax || 0)}
+                  </Text>
+                </HStack>
+                <HStack justify={"space-between"}>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    Delivery Fee{" "}
+                  </Text>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    {" "}
+                    ₹{order?.charges?.deliveryFee || 0}
+                  </Text>
+                </HStack>
+
+                <HStack justify={"space-between"}>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    Grand Total{" "}
+                  </Text>
+                  <Text mt={2} fontWeight="bold" fontSize={"sm"}>
+                    {" "}
+                    ₹{order?.charges?.grandTotal || "NA1"}
+                  </Text>
+                </HStack>
+              </Box>
+              {/* Action Buttons */}
+              <Flex justify={'space-between'} wrap="wrap" gap={1}>
+                <Button
+                  size="sm"
+                  colorScheme="teal"
+                  isLoading={isUpdatingOrderStatus}
+                  isDisabled={isDelivered}
+                  loadingText="Updating..."
+                  onClick={() => handleOpenUpdateStatusModal(order._id)}
+
+                >
+                  Update Status
+                </Button>
+
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  isDisabled={isAssigned}
+                  onClick={() => handleOpenAssignModal(order)}
+                >
+                  Assign
+                </Button>
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  onClick={() => handleOpenDeleteOrderModal(order)}
+                  isLoading={isDeletingOrder}
+                  loadingText="Deleting..."
+                >
+                  Delete
+                </Button>
+              </Flex>
             </Box>
-            {/* Status & Payment */}
-            <Flex gap={4} wrap="wrap">
-              <Badge
-                colorScheme={order.status === "confirmed" ? "green" : "orange"}
-              >
-                {order.currentOrderStatus}
-              </Badge>
-              <Badge colorScheme="blue">
-                {order.payment.gateway === "NONE"
-                  ? "COD"
-                  : order.payment.gateway}
-              </Badge>
-              <Badge colorScheme="purple">₹{order.charges?.grandTotal}</Badge>
-            </Flex>
-            {/* Items */}
-            <Box>
-              <Text fontWeight="bold" mb={2} fontSize={"md"}>
-                🧾 Items:
-              </Text>
-              <SimpleGrid height={'75px'} width={'full'} overflowX={'hidden'} sx={{
-                /* Scrollbar width */
-                "&::-webkit-scrollbar": {
-                  width: "6px",   // thin scrollbar
-                },
-                /* Track */
-                "&::-webkit-scrollbar-track": {
-                  background: "transparent", // ya "rgba(255,255,255,0.05)" for subtle bg
-                },
-                /* Thumb */
-                "&::-webkit-scrollbar-thumb": {
-                  background: "rgba(255,255,255,0.3)", // lightweight color
-                  borderRadius: "8px",
-                },
-                /* Thumb hover */
-                "&::-webkit-scrollbar-thumb:hover": {
-                  background: "rgba(255,255,255,0.5)",
-                },
-              }} >
-                {order.items.map((itemWrap) => (
-                  <Flex key={itemWrap._id} gap={3} mb={3} align="center">
-                    <Image
-                      src={itemWrap?.item?.image}
-                      alt={itemWrap?.item?.name}
-                      boxSize="60px"
-                      objectFit="cover"
-                      borderRadius="md"
-                    />
-                    <Box width={'full'} >
-                      <Text fontWeight="semibold" fontSize={"sm"}  >
-                        {itemWrap.item?.name}
-                      </Text>
-                      <Text fontSize="sm" color="gray.400">
-                        Qty: {itemWrap?.qty} | ₹{itemWrap.unitPrice}
-                      </Text>
-                    </Box>
-                  </Flex>
-                ))}
-              </SimpleGrid>
-            </Box>
-
-            <Divider />
-
-            <Box>
-              <HStack justify={"space-between"}>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  Sub Total{" "}
-                </Text>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  {" "}
-                  ₹{order?.charges?.subTotal || 0}
-                </Text>
-              </HStack>
-              <HStack justify={"space-between"}>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  Discount{" "}
-                </Text>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  {" "}
-                  ₹{order?.charges?.discount || 0}
-                </Text>
-              </HStack>
-              <HStack justify={"space-between"}>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  Tax{" "}
-                </Text>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  {" "}
-                  ₹{parseInt(order?.charges?.tax || 0)}
-                </Text>
-              </HStack>
-              <HStack justify={"space-between"}>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  Delivery Fee{" "}
-                </Text>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  {" "}
-                  ₹{order?.charges?.deliveryFee || 0}
-                </Text>
-              </HStack>
-
-              <HStack justify={"space-between"}>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  Grand Total{" "}
-                </Text>
-                <Text mt={2} fontWeight="bold" fontSize={"sm"}>
-                  {" "}
-                  ₹{order?.charges?.grandTotal || "NA1"}
-                </Text>
-              </HStack>
-            </Box>
-            {/* Action Buttons */}
-            <Flex justify={'space-between'} wrap="wrap" gap={1}>
-              <Button
-                size="sm"
-                colorScheme="teal"
-                isLoading={isUpdatingOrderStatus}
-                loadingText="Updating..."
-                onClick={() => handleOpenUpdateStatusModal(order._id)}
-
-              >
-                Update Status
-              </Button>
-
-              <Button
-                size="sm"
-                colorScheme="red"
-                onClick={() => handleOpenAssignModal(order)}
-              >
-                Assign
-              </Button>
-              <Button
-                size="sm"
-                colorScheme="red"
-                onClick={() => handleOpenDeleteOrderModal(order)}
-                isLoading={isDeletingOrder}
-                loadingText="Deleting..."
-              >
-                Delete
-              </Button>
-            </Flex>
-          </Box>
-        ))}
+          )
+        })}
 
         {orderId && (
           <UpdateOrderStatusDialog

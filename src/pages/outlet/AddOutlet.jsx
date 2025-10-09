@@ -30,16 +30,16 @@ const OutletCreate = () => {
       p={{ base: 4, lg: 6 }}
       mt={4}
       mx="auto"
-      bg={"blackAlpha.600"}
+      bg={"whiteAlpha.200"}
       borderRadius="xl"
       boxShadow="0 8px 32px rgba(0, 0, 0, 0.15)"
     >
 
-        <OutletCreateForm
-          onSubmitCreate={(value, action) => handleCreateOutlet(value, action)}
-          onSubmitUpdate={(value, action) => handleUpdateOutlet(value, action)}
-        />
-    
+      <OutletCreateForm
+        onSubmitCreate={(value, action) => handleCreateOutlet(value, action)}
+        onSubmitUpdate={(value, action) => handleUpdateOutlet(value, action)}
+      />
+
     </Box>
   );
 };

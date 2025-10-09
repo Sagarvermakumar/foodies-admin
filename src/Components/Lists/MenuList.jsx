@@ -107,12 +107,10 @@ const MenuList = ({ items, pagination }) => {
         {items.map((item) => (
           <Box
             key={item._id}
-            borderWidth="1px "
-            borderColor={"gray.700"}
             borderRadius="md"
             overflow="hidden"
             boxShadow="xl"
-            bg="transparent"
+            bg="whiteAlpha.200"
             color="white"
             _hover={{
               boxShadow: " 0 4px 60px rgba(252, 189, 1, 0.33)",

@@ -60,7 +60,7 @@ const CouponList = ({ coupons }) => {
           borderWidth="1px"
           borderRadius="lg"
           shadow="md"
-          bg={'transparent'}
+          bg={'whiteAlpha.200'}
           color={'gray.300'}
           borderColor={'gray.700'}
           _hover={{ shadow: 'lg' }}

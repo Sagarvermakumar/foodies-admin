@@ -57,11 +57,11 @@ const UserDetailsCard = ({ user }) => {
       w="100%"
       maxW="6xl"
       mx="auto"
-      borderWidth="1px"
-      borderColor="gray.800"
       rounded="xl"
       shadow="md"
+      bg={'whiteAlpha.200'}
       p={{ base: 6, lg: 8 }}
+      mb={4}
     >
       {/* Profile Header */}
       <Flex

@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import { createItemCategoryApi, deleteCategoryApi, getAllItemCategoriesApi, getItemCategoryApi, updateCategoryApi } from "./categoryApi";
 
 
@@ -23,9 +24,11 @@ export const createItemCategory = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const res = await createItemCategoryApi(data);
+      toast.success(res.data?.message || "Created!")
       return res.data;
     } catch (error) {
       console.error(`Failed to create category ${error.message}`);
+      toast.error(error.response?.data.message || `Failed to create category `)
       return thunkAPI.rejectWithValue(
         error.response?.data.message || `Failed to create category `
       );
@@ -39,9 +42,12 @@ export const updateCategory = createAsyncThunk(
     const { id, ...rest } = data;
     try {
       const res = await updateCategoryApi(id, rest);
+      toast.success(res.data.message || "Updated!")
       return res.data;
+
     } catch (error) {
       console.error(`Failed to update category ${error.message}`);
+      toast.error(error.response?.data.message || `Failed to create category `)
       return thunkAPI.rejectWithValue(
         error.response?.data.message || `Failed to update category `
       );
@@ -57,6 +63,7 @@ export const deleteCategory = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.error(`Failed to deleted category ${error.message}`);
+      toast.error(  error.response?.data.message || `Failed to delete category `)
       return thunkAPI.rejectWithValue(
         error.response?.data.message || `Failed to delete category `
       );

@@ -66,6 +66,7 @@ function LoginForm({ loading, onSubmit }) {
                     {['SUPER_ADMIN', 'MANAGER', 'STAFF', 'DELIVERY'].map(
                       (target) => (
                         <option
+                          key={target}
                           style={{
                             backgroundColor: '#060707ff',
                             color: 'white',

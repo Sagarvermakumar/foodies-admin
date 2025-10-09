@@ -63,7 +63,7 @@ const CreateCouponForm = () => {
   }
 
   return (
-    <Card bg="transparent" color={"gray.200"}>
+    <Card bg="transparent" color={"gray.200"} >
       <Formik
         initialValues={{
           code: currentCoupon?.code || "",

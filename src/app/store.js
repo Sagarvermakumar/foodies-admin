@@ -12,15 +12,14 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "../features/auth/authSlice";
-import userReducer from "../features/users/userSlice";
 import categoryReducer from "../features/category/categorySlice";
-import outletReducer from "../features/outlet/slice";
-import orderReducer from "../features/orders/orderSlice";
-import itemReducer from "../features/item/ItemSlice";
-import couponReducer from "../features/coupon/couponSlice"
+import couponReducer from "../features/coupon/couponSlice";
 import deliveryReducer from "../features/delevery/slice";
+import itemReducer from "../features/item/ItemSlice";
+import orderReducer from "../features/orders/orderSlice";
+import outletReducer from "../features/outlet/slice";
 import reportReducer from "../features/report/reportSlice";
-import apiNotificationMiddleware from "./middleware/apiNotificationMiddleware";
+import userReducer from "../features/users/userSlice";
 
 // 🔑 Only persist auth slice
 const persistConfig = {
@@ -50,7 +49,7 @@ const rootReducer = combineReducers({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(apiNotificationMiddleware),
+    })
 });
 
 // Persistor

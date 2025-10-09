@@ -1,7 +1,6 @@
 import {
   Badge,
   Box,
-  Button,
   Divider,
   GridItem,
   HStack,
@@ -9,7 +8,6 @@ import {
   Text,
   VStack
 } from "@chakra-ui/react";
-import { MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { getAllOutlets } from "../../features/outlet/action";
 import { setOutletPage } from "../../features/outlet/slice";
@@ -31,12 +29,10 @@ const OutletList = ({ outlets, pagination }) => {
       {outlets.map((outlet) => (
         <GridItem
           key={outlet._id}
-          border=".5px solid "
-          borderColor={'gray.600'}
           borderRadius="xl"
           shadow="md"
           p={5}
-          bg="blackAlpha.300"
+          bg="whiteAlpha.200"
         >
           <VStack align="start" spacing={3}>
             <HStack justify="space-between" w="full">
@@ -89,7 +85,7 @@ const OutletList = ({ outlets, pagination }) => {
             </Box>
           </VStack>
 
-
+          {/* 
           <Button
             leftIcon={<MdEdit />}
             size={"md"}
@@ -99,7 +95,7 @@ const OutletList = ({ outlets, pagination }) => {
             onClick={() => navigate(`/outlet/edit/${outlet._id}`)}
           >
             Edit
-          </Button>
+          </Button> */}
         </GridItem>
       ))}
 

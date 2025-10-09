@@ -1,7 +1,6 @@
 import { LucideTypeOutline } from "lucide-react";
 import {
   FaBell,
-  FaChartBar,
   FaClipboardList,
   FaPlusCircle,
   FaTags,
@@ -99,18 +98,6 @@ const sidebarMenus = [
         name: "Add Coupon", 
         icon: FaPlusCircle, 
         path: "/coupon/add", 
-        roles: ["SUPER_ADMIN", "MANAGER"] 
-      },
-    ],
-  },
-  {
-    section: "Analytics",
-    links: [
-
-      { 
-        name: "Reports", 
-        icon: FaChartBar, 
-        path: "/report", 
         roles: ["SUPER_ADMIN", "MANAGER"] 
       },
     ],

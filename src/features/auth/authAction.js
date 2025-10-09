@@ -95,6 +95,7 @@ export const otpVerification = createAsyncThunk(
       const res = await otpVerificationApi(data);
       return res.data;
     } catch (error) {
+      console.log(error)
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || " Failed to Verify"
       );

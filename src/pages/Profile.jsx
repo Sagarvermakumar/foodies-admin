@@ -40,6 +40,7 @@ const Profile = () => {
             borderColor="gray.800"
             rounded="xl"
             shadow="md"
+            bg={'whiteAlpha.200'}
             p={{ base: 6, lg: 8 }}
           >
 

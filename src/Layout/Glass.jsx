@@ -13,17 +13,14 @@ const move = keyframes`
 `;
 
 const Banner = () => {
-  const gridLineColor = useColorModeValue(
-    "rgba(0,0,0,0.04)",
-    "rgba(255,255,255,0.05)"
-  );
-  const bgColor = useColorModeValue("#fff", "#000");
+
+  const bgColor = useColorModeValue("#000", "#000");
   return (
     <Box
       as="section"
       position="relative"
       w="100%"
-      h="100vh"
+      h="100%"
       bg={bgColor}
       color="white"
       overflow="hidden"
@@ -31,17 +28,17 @@ const Banner = () => {
       {/* 🔮 Neon Glow Background Shapes */}
       <MotionBox
         position="absolute"
-        top="8%"
-        left="2%"
+        top="1%"
+        left="12%"
         w="200px"
         h="200px"
-        bg="blue.500"
+        bg="blue"
         borderRadius="full"
         filter="blur(60px)"
-        opacity={0.4}
-        animate={{ x: [0, 30, -30, 0], y: [0, -50, 20, 0] }}
+        opacity={0.25}
+        animate={{ x: [0, 1400, 0, 0], y: [0, -0, 20, 0] }}
         transition={{
-          duration: 12,
+          duration: 100,
           repeat: Infinity,
           repeatType: "mirror",
           ease: "easeInOut",
@@ -51,14 +48,14 @@ const Banner = () => {
 
       <MotionBox
         position="absolute"
-        bottom="10%"
-        right="5%"
+        top="30%"
+        left="55%"
         w="150px"
         h="150px"
-        bg="pink.600"
+        bg="chakra-inverse-text._dark"
         borderRadius="full"
         filter="blur(70px)"
-        opacity={0.45}
+        opacity={0.2}
         animate={{ x: [0, -40, 40, 0], y: [0, 40, -20, 0] }}
         transition={{
           duration: 15,
@@ -71,11 +68,11 @@ const Banner = () => {
 
       <MotionBox
         position="absolute"
-        bottom="40%"
-        left="40%"
+        bottom="10%"
+        right="-2%"
         w="150px"
         h="150px"
-        bg="purple.500"
+        bg="purple"
         borderRadius="full"
         filter="blur(60px)"
         opacity={0.3}
@@ -88,26 +85,25 @@ const Banner = () => {
         }}
         zIndex={0}
       />
-
-      {/* 🔲 Grid Overlay */}
-      <Box
-        position="relative"
-        w="100%"
-        h="100vh"
-        overflow="hidden"
-        bg="transparent"
-        _before={{
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          w: "200%",
-          h: "200%",
-          bgImage: `linear-gradient(to right, ${gridLineColor} 1px, transparent 1px), linear-gradient(to bottom, ${gridLineColor} 1px, transparent 1px)`,
-          bgSize: "50px 50px",
-          animation: `${move} 10s linear infinite`,
+      <MotionBox
+        position="absolute"
+        bottom="8%"
+        left="15%"
+        w="150px"
+        h="150px"
+        bg="red"
+        borderRadius="full"
+        filter="blur(60px)"
+        opacity={0.3}
+        animate={{ x: [0, 10, -10, 0], y: [0, -350, 200, 0] }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          repeatType: "mirror",
+          ease: "easeInOut",
         }}
-      ></Box>
+        zIndex={0}
+      />
     </Box>
   );
 };

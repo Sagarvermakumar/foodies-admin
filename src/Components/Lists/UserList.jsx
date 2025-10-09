@@ -43,7 +43,7 @@ const UserList = ({ usersList, pagination }) => {
       {usersList.map((user) => (
         <Box
           key={user._id}
-          bg="blackAlpha.300"
+          bg="whiteAlpha.200"
           p={6}
           borderLeft="4px solid"
           borderTopLeftRadius={"base"}

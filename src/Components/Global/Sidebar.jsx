@@ -29,19 +29,6 @@ export default function Sidebar({ children }) {
 
   return (
     <Box minH="100vh" bg="transparent" minW="full" pos={"relative"}>
-      <Box
-        position="fixed"
-        bottom="0"
-        left="0"
-        w="200px"
-        h="full"
-        bg="purple"
-        borderRadius="50%"
-        filter="blur(100px)"
-        zIndex={0}
-        opacity={0.3}
-        display={{ base: "none", md: "block" }}
-      />
 
       {/* Fixed Sidebar for Desktop */}
       <SidebarContent
@@ -52,8 +39,8 @@ export default function Sidebar({ children }) {
       {/* Drawer Sidebar for Mobile */}
       <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="full">
         <DrawerContent
-          bg="rgba(0,0,0,0.6)"
-          backdropFilter="blur(8px) hue-rotate(10deg)"
+          bg="transparent"
+          // backdropFilter="blur(8px) hue-rotate(10deg)"
           pb={4}
         >
           <SidebarContent onClose={onClose} />
@@ -100,9 +87,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
   }
   return (
     <Box
-      bg="#09090965"
+      bg="transparent"
       borderRight="1px"
-      borderRightColor="gray.700"
+      borderRightColor="gray.900"
+      boxShadow={'md'}
+      backdropFilter="blur(80px) hue-rotate(0deg)"
       w={{ base: "full", md: 72 }}
       pos="fixed"
       left="0"
@@ -188,11 +177,13 @@ const NavItem = ({ icon, children, path, isActive, pl = "4", ...rest }) => {
         p="3"
         pl={pl}
         mx="4"
+        my={2}
         fontFamily="monospace"
+        fontWeight={isActive ? "extrabold" : "normal"}
         fontSize="md"
         borderRadius="md"
+        boxShadow={'dark-lg'}
         color={isActive ? "#f62" : "gray.100"}
-        bg={isActive ? "rgba(0,0,0,0.4)" : "transparent"}
         _hover={{
           color: "#f80",
           bg: "rgba(0,0,0,0.4)",
@@ -225,9 +216,10 @@ const MobileNav = ({ onOpen, ...rest }) => {
       px={{ base: 4, md: 6 }}
       height="20"
       alignItems="center"
-      bg="gray.900"
-      borderBottomWidth="1px"
-      borderBottomColor="gray.700"
+      bg="transparent"
+      // borderBottomWidth="1px"
+      // borderBottomColor="gray.700"
+      boxShadow={'dark-lg'}
       justifyContent="space-between"
       w="100%"
       {...rest}
