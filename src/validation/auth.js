@@ -48,3 +48,11 @@ export const LoginSchema = Yup.object().shape({
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Confirm password is required"),
 });
+
+
+export const emailValidator = Yup.object({
+    email: Yup.string()
+      .trim()
+      .required("Email zaroori hai")
+      .email("Valid email address dalein"),
+  });

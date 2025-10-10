@@ -1,16 +1,17 @@
-import { Formik, Form, Field } from "formik";
+import { Field, Form, Formik } from "formik";
 
 import {
-  VStack,
+  Box,
+  Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
-  Button,
-  Box,
-  FormErrorMessage,
+  VStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { ForgetPasswordSchema } from "../../../validation/auth";
+import { emailValidator } from "../../../validation/auth";
+// import { ForgetPasswordSchema } from "../../../validation/auth";
 
 
 
@@ -19,9 +20,9 @@ export default function ForgetPasswordForm({ loading, onSubmit }) {
   return (
     <Formik
       initialValues={{ email: "" }}
-      validationSchema={ForgetPasswordSchema}
+      validationSchema={emailValidator}
       onSubmit={(values, actions) => {
-        onSubmit(values); 
+        onSubmit(values);
         actions.setSubmitting(false);
       }}
     >
