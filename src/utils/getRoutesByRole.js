@@ -8,6 +8,5 @@ export const roleRoutes = {
 
 // utils function
 export const getRouteByRole = (role) => {
-  console.log("user role : ",role)
   return roleRoutes[role] || "/profile" 
 };

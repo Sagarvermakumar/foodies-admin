@@ -107,7 +107,7 @@ const OutletCreateForm = ({ onSubmitCreate, onSubmitUpdate }) => {
           }
         }}
       >
-        {({ resetForm, values, errors, touched }) => {
+        {({ values, errors, touched }) => {
           const err = getIn(errors, "openingHours.weeklyOff");
           const tch = getIn(touched, "openingHours.weeklyOff");
 
@@ -559,13 +559,7 @@ const OutletCreateForm = ({ onSubmitCreate, onSubmitUpdate }) => {
               <Divider />
               <CardFooter>
                 <HStack w="100%" justify="flex-end" gap={3}>
-                  <Button
-                    type="reset"
-                    variant="outline"
-                    onClick={() => resetForm()}
-                  >
-                    Reset
-                  </Button>
+
                   <Button
                     colorScheme="red"
                     variant="outline"

@@ -27,7 +27,6 @@ const LoginWithOTP = () => {
   };
 
   const handleVerifyOTP = async (values) => {
-    console.log(values)
     dispatch(otpVerification({ email: values.emailOrPhone, otp: values.otp }))
 
 

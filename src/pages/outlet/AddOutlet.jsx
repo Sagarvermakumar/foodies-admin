@@ -1,18 +1,23 @@
 import { Box } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import OutletCreateForm from "../../Components/form/outlet/OutletCreateForm";
 import { createOutlet, updateOutlet } from "../../features/outlet/action";
 import { selectOutletError } from "../../features/outlet/selector";
-
 const OutletCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
 
   const error = useSelector(selectOutletError)
-  const handleCreateOutlet = (value) => {
-    dispatch(createOutlet(value));
+  const handleCreateOutlet = async (value) => {
+    try {
+      const res = await dispatch(createOutlet(value)).unwrap();
+      toast.success(res?.message || "Created")
+    } catch (error) {
+      toast.error(error || "Failed to create!")
+    }
   };
   const handleUpdateOutlet = (id, value) => {
     dispatch(updateOutlet({ id, value }));

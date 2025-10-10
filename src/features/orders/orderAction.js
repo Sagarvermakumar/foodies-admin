@@ -13,7 +13,6 @@ import {
 export const getAllOrders = createAsyncThunk(
   '/orders/all',
   async (filters, thunkAPI) => {
-    console.log(filters)
     try {
       const res = await getAllOrdersApi(filters)
       return res.data
@@ -46,7 +45,6 @@ export const getOrderByID = createAsyncThunk(
 export const updateOrderStatus = createAsyncThunk(
   '/order/update-status',
   async (data, thunkAPI) => {
-    console.log(data)
     try {
       const res = await updateOrderStatusApi(data)
       toast.success(res.data.message || 'Status Updated!')
@@ -68,7 +66,6 @@ export const assignOrderToDelivery = createAsyncThunk(
   '/order/assign',
   async ({ orderId, deliveryPersonId }, thunkAPI) => {
     try {
-      console.log(orderId, deliveryPersonId)
       const res = await assignOrderToDeliveryApi(orderId, deliveryPersonId)
       toast.success(res.data?.message || 'Order Assign Failed')
       return res.data

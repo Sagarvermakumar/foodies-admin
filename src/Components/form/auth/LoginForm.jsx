@@ -24,7 +24,6 @@ function LoginForm({ loading, onSubmit }) {
       onSubmit={async (values, actions) => {
         try {
           await onSubmit(values) // wait for handleLogin
-          console.log(values)
         } catch (err) {
           console.error(err)
         } finally {

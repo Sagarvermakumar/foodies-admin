@@ -15,7 +15,6 @@ import {
 export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
     // const { emailOrPhone, password, role } = data;
-    console.log(data);
     const response = await loginApi(data);
     return response.data;
   } catch (error) {
@@ -29,7 +28,6 @@ export const fetchProfile = createAsyncThunk(
   "auth/profile",
   async (role, thunkAPI) => {
     try {
-      console.log({role})
       const response = await getProfileApi(role);
       return response.data.user;
     } catch (error) {

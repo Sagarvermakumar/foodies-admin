@@ -14,6 +14,7 @@ import {
   Input,
   NumberInput,
   NumberInputField,
+  SimpleGrid,
   Switch,
   Text,
 } from '@chakra-ui/react'
@@ -202,128 +203,129 @@ const CreateCategoryForm = () => {
                     </>
                   )}
                 </Box>
-                {/* Name */}
-                <Field name="name">
-                  {({ field, form }) => (
-                    <FormControl
-                      isInvalid={form.errors.name && form.touched.name}
-                      mb={4}
-                    >
-                      <FormLabel>Category Name</FormLabel>
-                      <Input {...field} placeholder="Enter category name" />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
+                  {/* Name */}
+                  <Field name="name">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.name && form.touched.name}
+                        mb={4}
+                      >
+                        <FormLabel>Category Name</FormLabel>
+                        <Input {...field} placeholder="Enter category name" />
+                        <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
 
-                {/* Slug */}
-                <Field name="slug">
-                  {({ field, form }) => (
-                    <FormControl
-                      isInvalid={form.errors.slug && form.touched.slug}
-                      mb={4}
-                    >
-                      <FormLabel>Slug</FormLabel>
-                      <Input {...field} placeholder="category-slug" />
-                      <FormErrorMessage>{form.errors.slug}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                  {/* Slug */}
+                  <Field name="slug">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.slug && form.touched.slug}
+                        mb={4}
+                      >
+                        <FormLabel>Slug</FormLabel>
+                        <Input {...field} placeholder="category-slug" />
+                        <FormErrorMessage>{form.errors.slug}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
 
-                {/* description  */}
-                <Field name="description">
-                  {({ field }) => (
-                    <FormControl
-                      isInvalid={errors.description && touched.description}
-                      mb={4}
-                    >
-                      <FormLabel>Description</FormLabel>
-                      <Input {...field} placeholder="Category description" />
-                      <FormErrorMessage>{errors.description}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                  {/* description  */}
+                  <Field name="description">
+                    {({ field }) => (
+                      <FormControl
+                        isInvalid={errors.description && touched.description}
+                        mb={4}
+                      >
+                        <FormLabel>Description</FormLabel>
+                        <Input {...field} placeholder="Category description" />
+                        <FormErrorMessage>{errors.description}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
 
-                {/* availableItems */}
-                <Field name="availableItems">
-                  {({ field, form }) => (
-                    <FormControl
-                      isInvalid={
-                        form.errors.availableItems &&
-                        form.touched.availableItems
-                      }
-                      mb={4}
-                    >
-                      <FormLabel>Available Items</FormLabel>
-                      <NumberInput
-                        min={0}
-                        value={field.value}
-                        onChange={(val) =>
-                          form.setFieldValue('availableItems', val)
+                  {/* availableItems */}
+                  <Field name="availableItems">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.availableItems &&
+                          form.touched.availableItems
                         }
+                        mb={4}
                       >
-                        <NumberInputField {...field} />
-                      </NumberInput>
-                      <FormErrorMessage>
-                        {form.errors.availableItems}
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                {/* // sort category in ui */}
-                <Field name="sortOrder">
-                  {({ field, form }) => (
-                    <FormControl
-                      isInvalid={
-                        form.errors.sortOrder && form.touched.sortOrder
-                      }
-                      mb={4}
-                    >
-                      <FormLabel>Sort Order</FormLabel>
-                      <NumberInput
-                        typeof='number'
-                        min={0}
-                        value={field.value}
-                        onChange={(val) => form.setFieldValue('sortOrder', val)}
+                        <FormLabel>Available Items</FormLabel>
+                        <NumberInput
+                          min={0}
+                          value={field.value}
+                          onChange={(val) =>
+                            form.setFieldValue('availableItems', val)
+                          }
+                        >
+                          <NumberInputField {...field} />
+                        </NumberInput>
+                        <FormErrorMessage>
+                          {form.errors.availableItems}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  {/* // sort category in ui */}
+                  <Field name="sortOrder">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.sortOrder && form.touched.sortOrder
+                        }
+                        mb={4}
                       >
-                        <NumberInputField {...field} />
-                      </NumberInput>
-                      <FormErrorMessage>
-                        {form.errors.sortOrder}
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                        <FormLabel>Sort Order</FormLabel>
+                        <NumberInput
+                          typeof='number'
+                          min={0}
+                          value={field.value}
+                          onChange={(val) => form.setFieldValue('sortOrder', val)}
+                        >
+                          <NumberInputField {...field} />
+                        </NumberInput>
+                        <FormErrorMessage>
+                          {form.errors.sortOrder}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
 
-                {/* // rating  */}
+                  {/* // rating  */}
 
-                <Field name="ratingCount">
-                  {({ form }) => (
-                    <FormControl mb={4}>
-                      <FormLabel>Rating</FormLabel>
-                      <HStack spacing={2}>
-                        {[...Array(5)].map((_, index) => {
-                          const starIndex = index + 1
-                          return (
-                            <IconButton
-                              key={starIndex}
-                              aria-label={`Rate ${starIndex}`}
-                              icon={<StarsIcon />}
-                              bg={
-                                starIndex <= form.values.ratingCount
-                                  ? 'transparent'
-                                  : 'gray.300'
-                              }
-                              variant="outline"
-                              onClick={() => setFieldValue('ratingCount', starIndex)}
-                            />
-                          )
-                        })}
-                      </HStack>
-                    </FormControl>
-                  )}
-                </Field>
-
+                  <Field name="ratingCount">
+                    {({ form }) => (
+                      <FormControl mb={4}>
+                        <FormLabel>Rating</FormLabel>
+                        <HStack spacing={2}>
+                          {[...Array(5)].map((_, index) => {
+                            const starIndex = index + 1
+                            return (
+                              <IconButton
+                                key={starIndex}
+                                aria-label={`Rate ${starIndex}`}
+                                icon={<StarsIcon />}
+                                bg={
+                                  starIndex <= form.values.ratingCount
+                                    ? 'transparent'
+                                    : 'gray.300'
+                                }
+                                variant="outline"
+                                onClick={() => setFieldValue('ratingCount', starIndex)}
+                              />
+                            )
+                          })}
+                        </HStack>
+                      </FormControl>
+                    )}
+                  </Field>
+                </SimpleGrid>
                 {/* Active */}
                 <Field name="active" type="checkbox">
                   {({ field }) => (

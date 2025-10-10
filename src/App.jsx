@@ -39,7 +39,6 @@ const Items = lazy(() => import("./pages/item/Items.jsx"));
 const AddItem = lazy(() => import("./pages/item/AddItem.jsx"));
 const OutletCreate = lazy(() => import("./pages/outlet/AddOutlet.jsx"));
 const Outlets = lazy(() => import("./pages/outlet/Outlets.jsx"));
-const Report = lazy(() => import("./pages/Reports/Report.jsx"));
 const Review = lazy(() => import("./pages/reviews/Review.jsx"));
 
 //common routes
@@ -52,7 +51,6 @@ const App = () => {
 
   // const isAuthenticated = useSelector(selectIsAuthenticated);
   const role = getUserRole();
-  console.log("User Role:", role);
 
 
   useEffect(() => {
@@ -62,13 +60,11 @@ const App = () => {
           withCredentials: true,
         });
         const userRole = data?.user.role;
-        console.log(userRole);
 
         if (userRole === "CUSTOMER") {
           dispatch(logoutUser())
         }
 
-        console.log(data)
 
       } catch (error) {
         console.log(error)
@@ -262,15 +258,6 @@ const App = () => {
               }
             />
 
-            {/* Reports (SUPER_ADMIN only) */}
-            <Route
-              path="report"
-              element={
-                <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
-                  <Report />
-                </ProtectedRoute>
-              }
-            />
             {/* Review (SUPER_ADMIN only) */}
             <Route
               path="review/:name/:id"

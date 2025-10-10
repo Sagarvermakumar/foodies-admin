@@ -16,7 +16,6 @@ const Coupons = () => {
   const couponList = useSelector(selectCouponList);
 
   const isLoadingCoupon = useSelector(MakeCouponLoadingSelector("get"));
-  console.log({ couponList })
   useEffect(() => {
     dispatch(getAllCoupons({ query: "", page: 1, limit: 10 }));
   }, [dispatch]);

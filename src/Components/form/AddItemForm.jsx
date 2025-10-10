@@ -15,117 +15,137 @@ import {
   Input,
   Select,
   SimpleGrid,
-  Text
-} from "@chakra-ui/react";
-import { Field, FieldArray, Form, Formik } from "formik";
-import { ImagePlusIcon, ImageUpscaleIcon, LucideStepBack, PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { FaBackspace, FaPlus, FaTrash } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getAllItemCategories } from "../../features/category/categoryAction";
-import { selectCategoryList } from "../../features/category/categorySelector";
+  Text,
+} from '@chakra-ui/react'
+import { Field, FieldArray, Form, Formik } from 'formik'
+import {
+  ImagePlusIcon,
+  ImageUpscaleIcon,
+  LucideStepBack,
+  PlusIcon
+} from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { FaBackspace, FaPlus, FaTrash } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { getAllItemCategories } from '../../features/category/categoryAction'
+import { selectCategoryList } from '../../features/category/categorySelector'
 import {
   createItem,
   editItem,
-  getItemDetails
-} from "../../features/item/ItemAction";
+  getItemDetails,
+} from '../../features/item/ItemAction'
 import {
   MakeSelectItemLoading,
   selectItemDetails,
-} from "../../features/item/itemSelector";
-import { getAllOutlets } from "../../features/outlet/action";
-import { selectOutletList } from "../../features/outlet/selector";
-import { itemValidationSchema } from "../../validation/item";
-import Header from "../common/Heading";
+} from '../../features/item/itemSelector'
+import { getAllOutlets } from '../../features/outlet/action'
+import { selectOutletList } from '../../features/outlet/selector'
+import { itemValidationSchema } from '../../validation/item'
+import Header from '../common/Heading'
 
 // Yup validation schema
 
 const ItemForm = () => {
-  const currentItem = useSelector(selectItemDetails);
+  const currentItem = useSelector(selectItemDetails)
 
-  const itemId = useParams().id;
-  const dispatch = useDispatch();
-  const outletList = useSelector(selectOutletList);
-  const categoryList = useSelector(selectCategoryList);
-  const isLoadingItemDetails = useSelector(MakeSelectItemLoading("details"));
-  const isCreatingItem = useSelector(MakeSelectItemLoading("addItem"));
-  const isUpdatingItem = useSelector(MakeSelectItemLoading("editItem"));
+  const itemId = useParams().id
+  const dispatch = useDispatch()
+  const outletList = useSelector(selectOutletList)
+  const categoryList = useSelector(selectCategoryList)
+  const isLoadingItemDetails = useSelector(MakeSelectItemLoading('details'))
+  const isCreatingItem = useSelector(MakeSelectItemLoading('addItem'))
+  const isUpdatingItem = useSelector(MakeSelectItemLoading('editItem'))
 
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null)
   useEffect(() => {
-    const isValidId = itemId && /^[0-9a-fA-F]{24}$/.test(itemId);
+    const isValidId = itemId && /^[0-9a-fA-F]{24}$/.test(itemId)
     if (isValidId) {
-      dispatch(getItemDetails(itemId));
-      dispatch(getAllOutlets());
-      dispatch(getAllItemCategories());
+      dispatch(getItemDetails(itemId))
+      dispatch(getAllOutlets())
+      dispatch(getAllItemCategories())
     } else {
-      console.warn("Invalid itemId, skipping fetch");
-      dispatch(getAllOutlets());
+      console.warn('Invalid itemId, skipping fetch')
+      dispatch(getAllOutlets())
       dispatch(getAllItemCategories())
     }
-  }, [dispatch, itemId]);
-
+  }, [dispatch, itemId])
 
   if (isLoadingItemDetails) {
-    return <Text>Loading Item Details...</Text>;
+    return <Text>Loading Item Details...</Text>
   }
 
   if (itemId && !currentItem) {
-    return <Text>Invalid Item ID : {itemId}</Text>;
+    return <Text>Invalid Item ID : {itemId}</Text>
   }
 
   return (
-    <Card bg="transparent" color={"gray.200"} p={0} m={0} >
+    <Card bg="transparent" color={'gray.200'} p={0} m={0}>
       <Formik
         initialValues={{
-          name: currentItem?.name || "Name",
-          description: currentItem?.description || "Desc",
-          price: currentItem?.price || "99",
+          name: currentItem?.name || '',
+          description: currentItem?.description || '',
+          price: currentItem?.price || '',
           image: currentItem?.image || null,
           isVeg: currentItem?.isVeg || false,
           variations: currentItem?.variations || [],
           addons: currentItem?.addons || [],
-          discount: currentItem?.discount || 19,
-          lowStockThreshold: currentItem?.lowStockThreshold || 10,
-          outlet: currentItem?.outlet || "",
-          category: currentItem?.category || "",
+          discount: currentItem?.discount || 0,
+          lowStockThreshold: currentItem?.lowStockThreshold || 0,
+          outlet: currentItem?.outlet || '',
+          category: currentItem?.category || '',
         }}
         validationSchema={itemValidationSchema}
         enableReinitialize={true}
         onSubmit={async (values, action) => {
           try {
-            const formData = new FormData();
+            const formData = new FormData()
 
-            formData.append("name", values.name);
-            formData.append("description", values.description);
-            formData.append("price", values.price);
-            formData.append("isVeg", values.isVeg);
-            formData.append("discount", values.discount);
-            formData.append("lowStockThreshold", values.lowStockThreshold);
-            formData.append("outlet", values.outlet);
-            formData.append("category", values.category);
+            formData.append('name', values.name)
+            formData.append('description', values.description)
+            formData.append('price', values.price)
+            formData.append('isVeg', values.isVeg)
+            formData.append('discount', values.discount)
+            formData.append('lowStockThreshold', values.lowStockThreshold)
+            formData.append('outlet', values.outlet)
+            formData.append('category', values.category)
 
             // Arrays → stringify
-            formData.append("variations", JSON.stringify(values.variations || []));
-            formData.append("addons", JSON.stringify(values.addons || []));
+            formData.append(
+              'variations',
+              JSON.stringify(values.variations || [])
+            )
+            formData.append('addons', JSON.stringify(values.addons || []))
 
             // Image → only if File hai
             if (values.image instanceof File) {
-              formData.append("image", values.image);
+              formData.append('image', values.image)
             }
             if (itemId) {
-              await dispatch(editItem({ itemId, data: formData })).unwrap();
+              try {
+                const res = await dispatch(
+                  editItem({ itemId, data: formData })
+                ).unwrap()
+                toast.success(res.message || 'Updated')
+              } catch (error) {
+                toast.error(error)
+              }
             } else {
-              dispatch(createItem(formData));
+              try {
+                const res = dispatch(createItem(formData))
+                toast.success(res.message || 'Created')
+                action.resetForm();
+              } catch (error) {
+                toast.error(error)
+              }
             }
 
-            action.setSubmitting(false);
+            action.setSubmitting(false)
           } catch (error) {
             console.log(error)
           }
         }}
-
       >
         {({
           values,
@@ -135,23 +155,22 @@ const ItemForm = () => {
           handleBlur,
           resetForm,
         }) => {
-
           const handleChange = (e) => {
-            const file = e.currentTarget.files[0];
+            const file = e.currentTarget.files[0]
             if (file) {
-              setFieldValue("image", file);
-              setPreviewUrl(URL.createObjectURL(file));
+              setFieldValue('image', file)
+              setPreviewUrl(URL.createObjectURL(file))
             }
-          };
+          }
           return (
             <Form>
               <CardHeader p={0} m={0}>
                 <Header
-                  title={itemId ? "Edit Menu Item" : "Add New Menu Item"}
+                  title={itemId ? 'Edit Menu Item' : 'Add New Menu Item'}
                   subtitle={
                     itemId
-                      ? "Update the details of the menu item"
-                      : "Fill in the details to create a new menu item"
+                      ? 'Update the details of the menu item'
+                      : 'Fill in the details to create a new menu item'
                   }
                 />
               </CardHeader>
@@ -233,8 +252,6 @@ const ItemForm = () => {
                     )}
                   </Box>
 
-
-
                   {/* Name */}
                   <FormControl isRequired>
                     <FormLabel>Name</FormLabel>
@@ -311,8 +328,6 @@ const ItemForm = () => {
                     </FormErrorMessage>
                   </FormControl>
 
-
-
                   {/* select category  */}
                   <FormControl
                     isRequired
@@ -323,13 +338,15 @@ const ItemForm = () => {
                       as={Select}
                       value={values.category}
                       placeholder="Select Category"
-                      onChange={(e) => setFieldValue("category", e.target.value)}
+                      onChange={(e) =>
+                        setFieldValue('category', e.target.value)
+                      }
                       onBlur={handleBlur}
                     >
                       {categoryList?.map((category) => (
                         <option
                           key={category._id}
-                          style={{ backgroundColor: "#111" }}
+                          style={{ backgroundColor: '#111' }}
                           value={category._id}
                         >
                           {category.name}
@@ -347,14 +364,14 @@ const ItemForm = () => {
                     <Field
                       as={Select}
                       value={values.outlet}
-                      onChange={(e) => setFieldValue("outlet", e.target.value)}
+                      onChange={(e) => setFieldValue('outlet', e.target.value)}
                       placeholder="Select Outlet"
                       onBlur={handleBlur}
                     >
                       {outletList?.map((outlet) => (
                         <option
                           key={outlet._id}
-                          style={{ backgroundColor: "#111" }}
+                          style={{ backgroundColor: '#111' }}
                           value={outlet._id}
                         >
                           {outlet.name}
@@ -367,7 +384,7 @@ const ItemForm = () => {
                   <FieldArray name="variations">
                     {({ push, remove }) => (
                       <Box>
-                        <Text fontWeight="400" fontSize={"md"} mb={2}>
+                        <Text fontWeight="400" fontSize={'md'} mb={2}>
                           Variations
                         </Text>
 
@@ -441,7 +458,7 @@ const ItemForm = () => {
                           variant="outline"
                           leftIcon={<FaPlus />}
                           onClick={() =>
-                            push({ name: "", price: 0, maxAddons: 0 })
+                            push({ name: '', price: 0, maxAddons: 0 })
                           }
                         >
                           Add Variation
@@ -454,7 +471,7 @@ const ItemForm = () => {
                   <FieldArray name="addons">
                     {({ push, remove }) => (
                       <Box>
-                        <Text fontWeight="400" fontSize={"md"} mb={2}>
+                        <Text fontWeight="400" fontSize={'md'} mb={2}>
                           Addons
                         </Text>
 
@@ -510,19 +527,19 @@ const ItemForm = () => {
                                 }
                               >
                                 <option
-                                  style={{ backgroundColor: "#111" }}
+                                  style={{ backgroundColor: '#111' }}
                                   value="TOPPING"
                                 >
                                   TOPPING
                                 </option>
                                 <option
-                                  style={{ backgroundColor: "#111" }}
+                                  style={{ backgroundColor: '#111' }}
                                   value="OPTION"
                                 >
                                   OPTION
                                 </option>
                                 <option
-                                  style={{ backgroundColor: "#111" }}
+                                  style={{ backgroundColor: '#111' }}
                                   value="SPICE"
                                 >
                                   SPICE
@@ -546,7 +563,7 @@ const ItemForm = () => {
                           variant="outline"
                           leftIcon={<FaPlus />}
                           onClick={() =>
-                            push({ name: "", price: 0, type: "TOPPING" })
+                            push({ name: '', price: 0, type: 'TOPPING' })
                           }
                         >
                           Add Addon
@@ -559,21 +576,20 @@ const ItemForm = () => {
                     <Checkbox
                       name="isVeg"
                       isChecked={values.isVeg}
-                      onChange={(e) => setFieldValue("isVeg", e.target.checked)}
+                      onChange={(e) => setFieldValue('isVeg', e.target.checked)}
                     >
                       Vegetarian
                     </Checkbox>
                   </FormControl>
-
                 </SimpleGrid>
               </CardBody>
-              <CardFooter p={0} mb={{ sm: "4", md: 0 }} mt={6}>
+              <CardFooter p={0} mb={{ sm: '4', md: 0 }} mt={6}>
                 {/* Submit Button */}
                 <HStack w="100%" justify="flex-end" gap={3}>
                   <Button
                     leftIcon={<FaBackspace />}
                     type="button"
-                    size={{ base: "sm", md: "md" }}
+                    size={{ base: 'sm', md: 'md' }}
                     variant="ghost"
                     onClick={() => resetForm()}
                   >
@@ -581,7 +597,7 @@ const ItemForm = () => {
                   </Button>
                   <Button
                     variant="outline"
-                    size={{ base: "sm", md: "md" }}
+                    size={{ base: 'sm', md: 'md' }}
                     leftIcon={<LucideStepBack />}
                     onClick={() => window.history.back()}
                   >
@@ -590,12 +606,12 @@ const ItemForm = () => {
 
                   <Button
                     leftIcon={<PlusIcon />}
-                    size={{ base: "sm", md: "md" }}
+                    size={{ base: 'sm', md: 'md' }}
                     type="submit"
                     isLoading={itemId ? isUpdatingItem : isCreatingItem}
-                    loadingText={itemId ? "Updating..." : "Creating..."}
+                    loadingText={itemId ? 'Updating...' : 'Creating...'}
                   >
-                    {itemId ? "Update Item" : "Create Item"}
+                    {itemId ? 'Update Item' : 'Create Item'}
                   </Button>
                 </HStack>
               </CardFooter>
@@ -604,7 +620,7 @@ const ItemForm = () => {
         }}
       </Formik>
     </Card>
-  );
-};
+  )
+}
 
-export default ItemForm;
+export default ItemForm
