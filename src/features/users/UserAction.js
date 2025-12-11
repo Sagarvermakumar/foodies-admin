@@ -101,6 +101,7 @@ export const blockUser = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       // Call the block user API
+     
       const { data } = await blockUserApi(id);
 
       return data;
@@ -118,6 +119,7 @@ export const unblockUser = createAsyncThunk(
   "user/unblock",
   async (id, thunkAPI) => {
     try {
+       console.log("Blocking user with ID:", id);
       const { data } = await unblockUserApi(id);
   
       return data;

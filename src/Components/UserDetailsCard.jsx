@@ -39,16 +39,20 @@ const UserDetailsCard = ({ user }) => {
     }
   };
 
+  const role = useSelector((state) => state.auth.user.role);
+  console.log("UserDetailsCard user prop:", role, user);
 
 
 
 
   // block and active user status
   const handdleBlockUser = () => {
-    if (userDetails.status === 'active') {
-      dispatch(blockUser(userDetails._id));
+    if (userDetails?.status === 'active') {
+      console.log("Blocking user with ID:", userDetails);
+      dispatch(blockUser(userDetails?._id));
     } else {
-      dispatch(unblockUser(userDetails._id));
+      dispatch(unblockUser(userDetails?._id));
+      console.log("unblocking user with ID:", userDetails);
 
     }
   };
@@ -227,17 +231,19 @@ const UserDetailsCard = ({ user }) => {
           </Card>
         )}
       </Box>
-
-      <Button
-        leftIcon={
-          user?.status === 'active' ? <MdBlockFlipped /> : <Undo />
-        }
-        size="sm"
-        isLoading={isLoadingChangeUserStatus}
-        onClick={handdleBlockUser}
-      >
-        {user?.status === 'active' ? 'Block' : 'Unblock'} User
-      </Button>
+      {
+        role !== 'SUPER_ADMIN' && (
+          <Button
+            leftIcon={
+              user?.status === 'active' ? <MdBlockFlipped /> : <Undo />
+            }
+            size="sm"
+            isLoading={isLoadingChangeUserStatus}
+            onClick={handdleBlockUser}
+          >
+            {user?.status === 'active' ? 'Block' : 'Unblock'} User
+          </Button>)
+      }
 
     </Box>
   );

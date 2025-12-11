@@ -6,49 +6,54 @@ import { logoutUser } from "./features/auth/authAction.js";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import axiosClient from "./utils/axiosClient.js";
 
-
-const AddCoupon = lazy(() => import("./pages/coupons/AddCoupon.jsx"));
-const Coupon = lazy(() => import("./pages/coupons/Coupons.jsx"));
-const AssignedDeliveries = lazy(() =>
-  import("./pages/delivery/AssignedDeliveries.jsx")
-);
-// public pages
+// Public pages
 const Login = lazy(() => import("./pages/auth/Login.jsx"));
 const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword.jsx"));
 const ResetPassword = lazy(() => import("./pages/auth/ResetPassword.jsx"));
 const LoginWithOTP = lazy(() => import("./pages/auth/LoginWithOTP.jsx"));
+const Unauthorized = lazy(() => import("./Components/common/Unauthorized.jsx"));
+const PageNotFound = lazy(() => import("./Components/common/PageNotFound.jsx"));
 
-//admin pages
+// Admin Layout + Dashboard
 const AdminLayout = lazy(() => import("./Layout/Admin.jsx"));
 const DashboardAdmin = lazy(() => import("./pages/Dashboard.jsx"));
-// Lazy imports
 
-const Profile = lazy(() => import("./pages/Profile.jsx"));
-const AllNotification = lazy(() => import("./pages/Notifications/AllNotification.jsx"));
-const SendNotification = lazy(() => import("./pages/Notifications/SendNotification.jsx"));
+// User pages
 const Users = lazy(() => import("./pages/Users.jsx"));
 const UserDetails = lazy(() => import("./pages/UserDetails.jsx"));
-const AllOrders = lazy(() => import("./pages/Orders.jsx"));
 
+// Categories
 const Categories = lazy(() => import("./pages/categories/Categories.jsx"));
-const AddCategories = lazy(() =>
-  import("./pages/categories/AddCategories.jsx")
-);
+const AddCategories = lazy(() => import("./pages/categories/AddCategories.jsx"));
+
+// Items
 const Items = lazy(() => import("./pages/item/Items.jsx"));
 const AddItem = lazy(() => import("./pages/item/AddItem.jsx"));
-const OutletCreate = lazy(() => import("./pages/outlet/AddOutlet.jsx"));
+
+// Orders + Delivery
+const AllOrders = lazy(() => import("./pages/Orders.jsx"));
+const AssignedDeliveries = lazy(() => import("./pages/delivery/AssignedDeliveries.jsx"));
+
+// Coupons
+const Coupon = lazy(() => import("./pages/coupons/Coupons.jsx"));
+const AddCoupon = lazy(() => import("./pages/coupons/AddCoupon.jsx"));
+
+// Outlets
 const Outlets = lazy(() => import("./pages/outlet/Outlets.jsx"));
+const OutletCreate = lazy(() => import("./pages/outlet/AddOutlet.jsx"));
+
+// Review
 const Review = lazy(() => import("./pages/reviews/Review.jsx"));
 
-//common routes
-const PageNotFound = lazy(() => import("./Components/common/PageNotFound.jsx"));
-const Unauthorized = lazy(() => import("./Components/common/Unauthorized.jsx"));
+// Notifications
+const AllNotification = lazy(() => import("./pages/Notifications/AllNotification.jsx"));
+const SendNotification = lazy(() => import("./pages/Notifications/SendNotification.jsx"));
+
+// Profile
+const Profile = lazy(() => import("./pages/Profile.jsx"));
 
 const App = () => {
-  // const location = useLocation();
   const dispatch = useDispatch();
-
-
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -56,22 +61,21 @@ const App = () => {
         const { data } = await axiosClient.get(`/auth/me?role=SUPER_ADMIN`, {
           withCredentials: true,
         });
+
         const userRole = data?.user.role;
 
+        // If CUSTOMER tries to access admin -> logout
         if (userRole === "CUSTOMER") {
-          dispatch(logoutUser())
+          dispatch(logoutUser());
         }
 
-
       } catch (error) {
-        console.log(error)
-      } finally {
-        console.log("Request final")
+        console.log(error);
       }
-    }
-    checkAuth()
-  }, [dispatch,])
+    };
 
+    checkAuth();
+  }, [dispatch]);
 
   return (
     <Router>
@@ -84,34 +88,30 @@ const App = () => {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
-          {/* Protected Routes with Layout */}
+
+          {/* Protected Admin Routes */}
           <Route
             path="/"
             element={
               <ProtectedRoute
-                allowedRoles={[
-                  "SUPER_ADMIN",
-                  "MANAGER",
-                  "STAFF",
-                  "DELIVERY",
-                  "CUSTOMER",
-                ]}
+                allowedRoles={["SUPER_ADMIN", "MANAGER", "STAFF", "DELIVERY"]}
               >
                 <AdminLayout />
               </ProtectedRoute>
             }
           >
-            {/* SUPER_ADMIN, MANAGER */}
 
-            {/* SUPER_ADMIN only */}
-            <Route index element={<DashboardAdmin />} />
-            {/* <Route
-              path="/"
+            {/* ADMIN HOME (Dashboard) */}
+            <Route
+              index
               element={
-                <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
+                <ProtectedRoute allowedRoles={["SUPER_ADMIN", "MANAGER"]}>
+                  <DashboardAdmin />
                 </ProtectedRoute>
               }
-            /> */}
+            />
+
+            {/* OUTLETS */}
             <Route
               path="outlet"
               element={
@@ -137,19 +137,17 @@ const App = () => {
               }
             />
 
-            {/* STAFF, MANAGER, SUPER_ADMIN */}
+            {/* ORDERS */}
             <Route
               path="orders"
               element={
-                <ProtectedRoute
-                  allowedRoles={["STAFF", "MANAGER", "SUPER_ADMIN"]}
-                >
+                <ProtectedRoute allowedRoles={["STAFF", "MANAGER", "SUPER_ADMIN"]}>
                   <AllOrders />
                 </ProtectedRoute>
               }
             />
 
-            {/* Categories (SUPER_ADMIN, MANAGER) */}
+            {/* CATEGORIES */}
             <Route
               path="category"
               element={
@@ -166,16 +164,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="category/edit/:id"
-              element={
-                <ProtectedRoute allowedRoles={["SUPER_ADMIN", "MANAGER"]}>
-                  <AddCategories />
-                </ProtectedRoute>
-              }
-            />
 
-            {/* Items (SUPER_ADMIN, MANAGER) */}
+            {/* ITEMS */}
             <Route
               path="item"
               element={
@@ -192,16 +182,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="item/edit/:id"
-              element={
-                <ProtectedRoute allowedRoles={["SUPER_ADMIN", "MANAGER"]}>
-                  <AddItem />
-                </ProtectedRoute>
-              }
-            />
 
-            {/* Coupons (SUPER_ADMIN only) */}
+            {/* COUPONS */}
             <Route
               path="coupon"
               element={
@@ -218,16 +200,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="coupon/edit/:id"
-              element={
-                <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
-                  <AddCoupon />
-                </ProtectedRoute>
-              }
-            />
 
-            {/* Users (SUPER_ADMIN, MANAGER) */}
+            {/* USERS */}
             <Route
               path="users"
               element={
@@ -236,6 +210,7 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="users/:id"
               element={
@@ -245,7 +220,7 @@ const App = () => {
               }
             />
 
-            {/* Delivery (DELIVERY + SUPER_ADMIN) */}
+            {/* DELIVERY */}
             <Route
               path="delivery"
               element={
@@ -255,7 +230,7 @@ const App = () => {
               }
             />
 
-            {/* Review (SUPER_ADMIN only) */}
+            {/* REVIEW */}
             <Route
               path="review/:name/:id"
               element={
@@ -265,36 +240,24 @@ const App = () => {
               }
             />
 
-            {/* Notification (sabko allow) */}
+            {/* NOTIFICATIONS */}
             <Route
               path="notification-send"
               element={
                 <ProtectedRoute
-                  allowedRoles={[
-                    "SUPER_ADMIN",
-                    "MANAGER",
-                    "STAFF",
-                    "DELIVERY",
-                    "CUSTOMER",
-                  ]}
+                  allowedRoles={["SUPER_ADMIN", "MANAGER", "STAFF", "DELIVERY"]}
                 >
                   <SendNotification />
                 </ProtectedRoute>
               }
             />
 
-            {/* Profile (sabko allow) */}
+            {/* PROFILE */}
             <Route
               path="profile"
               element={
                 <ProtectedRoute
-                  allowedRoles={[
-                    "SUPER_ADMIN",
-                    "MANAGER",
-                    "STAFF",
-                    "DELIVERY",
-                    "CUSTOMER",
-                  ]}
+                  allowedRoles={["SUPER_ADMIN", "MANAGER", "STAFF", "DELIVERY"]}
                 >
                   <Profile />
                 </ProtectedRoute>
@@ -302,13 +265,12 @@ const App = () => {
             />
           </Route>
 
-          {/* Catch all */}
+          {/* Page Not Found */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
-    </Router >
+    </Router>
   );
 };
-
 
 export default App;
