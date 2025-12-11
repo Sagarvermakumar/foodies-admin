@@ -4,7 +4,6 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Loader from "./Components/common/Loader.jsx";
 import { logoutUser } from "./features/auth/authAction.js";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
-import { getUserRole } from "./utils/authHelper.js";
 import axiosClient from "./utils/axiosClient.js";
 
 
@@ -49,8 +48,6 @@ const App = () => {
   // const location = useLocation();
   const dispatch = useDispatch();
 
-  // const isAuthenticated = useSelector(selectIsAuthenticated);
-  const role = getUserRole();
 
 
   useEffect(() => {

@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { emailValidator } from "../../../validation/auth";
-// import { ForgetPasswordSchema } from "../../../validation/auth";
 
 
 

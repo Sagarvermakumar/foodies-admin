@@ -30,16 +30,20 @@ const Dashboard = () => {
   const statsLoading = useSelector(makeLoadingSelector("stats"));
   const statsError = useSelector(makeErrorSelector("stats"));
 
+
+
+  // console.log("Stats Data:", stats);
+
   useEffect(() => {
     dispatch(fetchStats());
   }, [dispatch]);
 
   // 🔸 Dummy Revenue Breakdown Data
   const revenueBreakdown = [
-    { name: "Food Orders", value: 48000 },
-    { name: "Delivery Fees", value: 12000 },
-    { name: "Subscriptions", value: 8000 },
-    { name: "Others", value: 4000 },
+    { name: "Food Orders", value: 2800 },
+    { name: "Delivery Fees", value: 1200 },
+    { name: "Subscriptions", value: 180 },
+    { name: "Others", value: 400 },
   ];
   const COLORS = ["#FF8042", "#00C49F", "#0088FE", "#FFBB28"];
 
