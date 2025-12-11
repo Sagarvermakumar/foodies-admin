@@ -1,7 +1,6 @@
 import { Box, Heading, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import EmptyState from '../Components/common/EmptyState'
 import FilterBar from '../Components/common/FilterBar'
 import Header from '../Components/common/Heading'
 import Pagination from '../Components/common/Pagination'
@@ -42,11 +41,7 @@ const Orders = () => {
 
   if (!orderList)
     return (
-      <EmptyState
-        label="Orders"
-        subLabel="Maybe Orders deleted or does not exist."
-        redirectUrl="/profile"
-      />
+      <OrdersSkeleton />
     )
   return (
     <Box bg={'transparent'}>
